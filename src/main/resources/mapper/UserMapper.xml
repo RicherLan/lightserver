@@ -33,7 +33,7 @@
         select
         <include refid="Base_Column_List"></include>
         from user
-        where phone=#{phone};
+        where phone=#{phone,jdbcType=VARCHAR};
     </select>
 
     <update id="deleteByUserid" parameterType="java.lang.Long">
@@ -43,10 +43,10 @@
 
     <insert id="insert" parameterType="lan.qxc.lightserver.entity.User">
         insert into user(userid, phone, username,password,sex,icon,birthday,introduce,location,hometown,job,is_deleted,is_locked)
-        values (#{userid,jabcType=BIGINT}, #{phone,jabcType=VARCHAR}, #{username,jabcType=VARCHAR},#{password,jabcType=VARCHAR},
-        #{sex,jabcType=TINYINT},
-        #{icon,jabcType=VARCHAR},#{birthday,jabcType=varchar},#{introduce,jabcType=varchar},#{location,jabcType=varchar},
-        #{hometown,jabcType=varchar},#{job,jabcType=varchar},#{is_deleted,jabcType=TINYINT},#{is_locked,jabcType=TINYINT})
+        values (#{userid,jdbcType=BIGINT}, #{phone,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
+        #{sex,jdbcType=TINYINT},
+        #{icon,jdbcType=VARCHAR},#{birthday,jdbcType=VARCHAR},#{introduce,jdbcType=VARCHAR},#{location,jdbcType=VARCHAR},
+        #{hometown,jdbcType=VARCHAR},#{job,jdbcType=VARCHAR},#{is_deleted,jdbcType=TINYINT},#{is_locked,jdbcType=TINYINT})
     </insert>
 
     <insert id="insertSelective" parameterType="lan.qxc.lightserver.entity.User">
@@ -55,83 +55,83 @@
             <if test="userid!=null">
                 userid,
             </if>
-            <if test="userid!=null">
+            <if test="phone!=null">
                 phone,
             </if>
-            <if test="userid!=null">
+            <if test="username!=null">
                 username,
             </if>
-            <if test="userid!=null">
+            <if test="password!=null">
                 password,
             </if>
-            <if test="userid!=null">
+            <if test="sex!=null">
                 sex,
             </if>
-            <if test="userid!=null">
+            <if test="icon!=null">
                 icon,
             </if>
-            <if test="userid!=null">
+            <if test="birthday!=null">
                 birthday,
             </if>
-            <if test="userid!=null">
+            <if test="introduce!=null">
                 introduce,
             </if>
-            <if test="userid!=null">
+            <if test="location!=null">
                 location,
             </if>
-            <if test="userid!=null">
+            <if test="hometown!=null">
                 hometown,
             </if>
-            <if test="userid!=null">
+            <if test="job!=null">
                 job,
             </if>
-            <if test="userid!=null">
+            <if test="is_deleted!=null">
                 is_deleted,
             </if>
-            <if test="userid!=null">
+            <if test="is_locked!=null">
                 is_locked,
             </if>
         </trim>
 
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-            #{userid,jabcType=BIGINT},
+            <if test="userid != null">
+            #{userid,jdbcType=BIGINT},
             </if>
             <if test="phone != null">
-             #{phone,jabcType=VARCHAR},
+             #{phone,jdbcType=VARCHAR},
             </if>
             <if test="username != null">
-              #{username,jabcType=VARCHAR},
+              #{username,jdbcType=VARCHAR},
             </if>
             <if test="password != null">
-              #{password,jabcType=VARCHAR},
+              #{password,jdbcType=VARCHAR},
             </if>
             <if test="sex != null">
-            #{sex,jabcType=TINYINT},
+            #{sex,jdbcType=TINYINT},
             </if>
             <if test="icon != null">
-            #{icon,jabcType=VARCHAR},
+            #{icon,jdbcType=VARCHAR},
             </if>
             <if test="birthday != null">
-            #{birthday,jabcType=varchar},
+            #{birthday,jdbcType=VARCHAR},
             </if>
             <if test="introduce != null">
-            #{introduce,jabcType=varchar},
+            #{introduce,jdbcType=VARCHAR},
             </if>
             <if test="location != null">
-            #{location,jabcType=varchar},
+            #{location,jdbcType=VARCHAR},
             </if>
             <if test="hometown != null">
-            #{hometown,jabcType=varchar},
+            #{hometown,jdbcType=VARCHAR},
             </if>
             <if test="job != null">
-            #{job,jabcType=varchar},
+            #{job,jdbcType=VARCHAR},
             </if>
             <if test="is_deleted != null">
-            #{is_deleted,jabcType=TINYINT},
+            #{is_deleted,jdbcType=TINYINT},
             </if>
             <if test="is_locked != null">
-            #{is_locked,jabcType=TINYINT},
+            #{is_locked,jdbcType=TINYINT},
             </if>
 
         </trim>
@@ -141,62 +141,62 @@
 
     <update id="updateByUserid" parameterType="lan.qxc.lightserver.entity.User">
         update user
-        set  phone=#{phone,jabcType=VARCHAR},
-         username=#{username,jabcType=VARCHAR},
-         password=#{password,jabcType=VARCHAR},
-        sex=#{sex,jabcType=TINYINT},
-        icon=#{icon,jabcType=VARCHAR},
-        birthday=#{birthday,jabcType=varchar},
-        introduce=#{introduce,jabcType=varchar},
-        location=#{location,jabcType=varchar},
-        hometown=#{hometown,jabcType=varchar},
-        job=#{job,jabcType=varchar},
-        is_deleted=#{is_deleted,jabcType=TINYINT},
-        is_locked=#{is_locked,jabcType=TINYINT}
-        where  userid=#{userid,jabcType=BIGINT}
+        set  phone=#{phone,jdbcType=VARCHAR},
+         username=#{username,jdbcType=VARCHAR},
+         password=#{password,jdbcType=VARCHAR},
+        sex=#{sex,jdbcType=TINYINT},
+        icon=#{icon,jdbcType=VARCHAR},
+        birthday=#{birthday,jdbcType=VARCHAR},
+        introduce=#{introduce,jdbcType=VARCHAR},
+        location=#{location,jdbcType=VARCHAR},
+        hometown=#{hometown,jdbcType=VARCHAR},
+        job=#{job,jdbcType=VARCHAR},
+        is_deleted=#{is_deleted,jdbcType=TINYINT},
+        is_locked=#{is_locked,jdbcType=TINYINT}
+        where  userid=#{userid,jdbcType=BIGINT}
     </update>
 
     <update id="updateByUseridSelective" parameterType="lan.qxc.lightserver.entity.User">
         update user
         <set>
             <if test="phone != null">
-                phone=#{phone,jabcType=VARCHAR},
+                phone=#{phone,jdbcType=VARCHAR},
             </if>
             <if test="username != null">
-                username=#{username,jabcType=VARCHAR},
+                username=#{username,jdbcType=VARCHAR},
             </if>
             <if test="password != null">
-                password= #{password,jabcType=VARCHAR},
+                password= #{password,jdbcType=VARCHAR},
             </if>
             <if test="sex != null">
-                sex= #{sex,jabcType=TINYINT},
+                sex= #{sex,jdbcType=TINYINT},
             </if>
             <if test="icon != null">
-                icon=#{icon,jabcType=VARCHAR},
+                icon=#{icon,jdbcType=VARCHAR},
             </if>
             <if test="birthday != null">
-                birthday= #{birthday,jabcType=varchar},
+                birthday= #{birthday,jdbcType=VARCHAR},
             </if>
             <if test="introduce != null">
-                introduce=#{introduce,jabcType=varchar},
+                introduce=#{introduce,jdbcType=VARCHAR},
             </if>
             <if test="location != null">
-                location=  #{location,jabcType=varchar},
+                location=  #{location,JdbcType=VARCHAR},
             </if>
             <if test="hometown != null">
-                hometown=#{hometown,jabcType=varchar},
+                hometown=#{hometown,jdbcType=VARCHAR},
             </if>
             <if test="job != null">
-                job=#{job,jabcType=varchar},
+                job=#{job,jdbcType=VARCHAR},
             </if>
             <if test="is_deleted != null">
-                is_deleted= #{is_deleted,jabcType=TINYINT},
+                is_deleted= #{is_deleted,jdbcType=TINYINT},
             </if>
             <if test="is_locked != null">
-                is_locked=#{is_locked,jabcType=TINYINT},
+                is_locked=#{is_locked,jdbcType=TINYINT},
             </if>
         </set>
-        where  userid=#{userid,jabcType=BIGINT}
+        where  userid=#{userid,jdbcType=BIGINT}
     </update>
 
 

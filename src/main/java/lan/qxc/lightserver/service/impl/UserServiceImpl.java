@@ -19,7 +19,8 @@ public class UserServiceImpl implements UserService {
     public User login(String phone, String password) {
 
         User user = userMapper.selectByPhone(phone);
-        if(user!=null&&user.getPhone().equals(phone)&&user.getPassword().equals(password)){
+        String passwordMD5 = MD5Util.MD5Encode(password, "UTF-8");
+        if(user!=null&&user.getPhone().equals(phone)&&user.getPassword().equals(passwordMD5)){
             return user;
         }
 
@@ -31,16 +32,16 @@ public class UserServiceImpl implements UserService {
 
         User user = userMapper.selectByPhone(phone);
         if(user!=null){
-            return ServiceResultEnum.SUCCESS.getResult();
+            return ServiceResultEnum.PHONE_HAS_EXIST.getResult();
         }
-        return ServiceResultEnum.PHONE_HAS_EXIST.getResult();
+        return ServiceResultEnum.SUCCESS.getResult();
     }
 
     @Override
     public String register(String phone, String nickname, String password) {
 
         if(userMapper.selectByPhone(phone)!=null){
-            return ServiceResultEnum.SUCCESS.getResult();
+            return ServiceResultEnum.PHONE_HAS_EXIST.getResult();
         }
 
         User user = new User();
