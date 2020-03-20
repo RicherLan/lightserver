@@ -65,4 +65,13 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public String updateHeadIcon(Long userid, String path) {
+
+        if(userMapper.updateHeadIcByUserid(userid,path)>0){
+            return ServiceResultEnum.SUCCESS.getResult();
+        }
+        return ServiceResultEnum.ERROR.getResult();
+    }
 }

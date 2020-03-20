@@ -18,5 +18,7 @@ public interface UserMapper {
 
     int updateByUserid(User user);
 
+    int updateHeadIcByUserid(Long userid,String path);
+
 
 }

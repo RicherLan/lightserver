@@ -41,6 +41,14 @@ public interface UserService {
     User updateUserInfo(User user);
 
 
+    /**
+     * 更改头像
+     * @param userid
+     * @param path
+     * @return
+     */
+    String updateHeadIcon(Long userid,String path);
+
 
 
 }

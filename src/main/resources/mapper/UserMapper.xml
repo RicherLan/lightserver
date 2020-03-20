@@ -181,7 +181,7 @@
                 introduce=#{introduce,jdbcType=VARCHAR},
             </if>
             <if test="location != null">
-                location=  #{location,JdbcType=VARCHAR},
+                location=  #{location,jdbcType=VARCHAR},
             </if>
             <if test="hometown != null">
                 hometown=#{hometown,jdbcType=VARCHAR},
@@ -197,6 +197,12 @@
             </if>
         </set>
         where  userid=#{userid,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateHeadIcByUserid">
+        update user
+        set icon=#{path,jdbcType=VARCHAR}
+        where userid=#{userid,jdbcType=BIGINT}
     </update>
 
 
