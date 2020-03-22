@@ -205,5 +205,11 @@
         where userid=#{userid,jdbcType=BIGINT}
     </update>
 
+    <update id="updatePassByUserid">
+        update user
+        set password=#{newpassword,jdbcType=VARCHAR}
+        where userid=#{userid,jdbcType=BIGINT} and password=#{oldpassword,jdbcType=VARCHAR}
+    </update>
+
 
 </mapper>

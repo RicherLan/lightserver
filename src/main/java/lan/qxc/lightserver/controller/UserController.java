@@ -91,9 +91,9 @@ public class UserController {
 
 
     @PostMapping(UserAPI.UPDATE_USER_INFO)
-    public Result updateUserIngo(@RequestBody User user){
+    public Result updateUserInfo(@RequestBody User user){
 
-        System.out.println("updateUserIngo....");
+        System.out.println("updateUserInfo....");
 //        System.out.println(user.toString());
         User newUser = userService.updateUserInfo(user);
         if(newUser!=null){
@@ -139,6 +139,22 @@ public class UserController {
 
         return ResultGenerator.genFailResult("error");
     }
+
+
+    @RequestMapping(UserAPI.UPDATE_USER_PASSWORD)
+    public Result updateUserPassword(@RequestParam("userid")Long userid,
+                                     @RequestParam("oldpassword") String oldpassword,
+                                     @RequestParam("newpassword") String newpassword){
+
+        System.out.println("updateUserPassword......");
+        String res = userService.updatePassword(userid,oldpassword,newpassword);
+        if(res.equals(ServiceResultEnum.SUCCESS.getResult())){
+            return ResultGenerator.genSuccessResult();
+        }
+
+        return ResultGenerator.genFailResult(res);
+    }
+
 
 
 }

@@ -10,4 +10,6 @@ public interface UserAPI {
     String UPDATE_USER_INFO = "/user/update/info";
     String UPLOAD_USER_ICON = "/user/update/upload_headic_file";
 
+    String UPDATE_USER_PASSWORD = "/user/update/password";
+
 }

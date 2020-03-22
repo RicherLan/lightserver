@@ -50,5 +50,14 @@ public interface UserService {
     String updateHeadIcon(Long userid,String path);
 
 
+    /**
+     * 修改密码
+     * @param userid
+     * @param oldpassword
+     * @param newpassword
+     * @return
+     */
+    String updatePassword(Long userid,String oldpassword,String newpassword);
+
 
 }

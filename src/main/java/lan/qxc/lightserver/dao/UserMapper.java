@@ -20,5 +20,7 @@ public interface UserMapper {
 
     int updateHeadIcByUserid(Long userid,String path);
 
+    int updatePassByUserid(Long userid,String oldpassword,String newpassword);
+
 
 }

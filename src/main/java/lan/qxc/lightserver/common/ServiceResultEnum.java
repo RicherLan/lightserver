@@ -12,6 +12,7 @@ public enum ServiceResultEnum {
     LOGIN_PASSWORD_NULL("请输入密码！"),
     LOGIN_VERIFY_CODE_NULL("请输入验证码！"),
     VERIFY_CODE_ERROR("验证码错误"),
+    OLD_PASSWORD_ERROR("旧密码错误"),
     DB_ERROR("database error");
 
 

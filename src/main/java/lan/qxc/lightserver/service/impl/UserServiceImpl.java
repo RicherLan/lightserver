@@ -74,4 +74,26 @@ public class UserServiceImpl implements UserService {
         }
         return ServiceResultEnum.ERROR.getResult();
     }
+
+    @Override
+    public String updatePassword(Long userid, String oldpassword, String newpassword) {
+
+        String newpasswordMD5 = MD5Util.MD5Encode(newpassword, "UTF-8");
+        String oldpasswordMD5 = MD5Util.MD5Encode(oldpassword, "UTF-8");
+
+
+        User user = userMapper.selectByUserid(userid);
+        if(user==null){
+            return ServiceResultEnum.ERROR.getResult();
+        }
+        if(!user.getPassword().equals(oldpasswordMD5)){
+            return ServiceResultEnum.OLD_PASSWORD_ERROR.getResult();
+        }
+
+        if(userMapper.updatePassByUserid(userid,oldpasswordMD5,newpasswordMD5)>0){
+            return ServiceResultEnum.SUCCESS.getResult();
+        }
+
+        return ServiceResultEnum.ERROR.getResult();
+    }
 }
