@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lan.qxc.lightserver.dao.DongtaiMapper">
+
+    <resultMap id="BaseResultMap" type="lan.qxc.lightserver.entity.Dongtai">
+        <id column="dtid" jdbcType="BIGINT" property="dtid"></id>
+        <result column="userid" jdbcType="BIGINT" property="userid"></result>
+        <result column="dtcontent" jdbcType="VARCHAR" property="dtcontent"></result>
+        <result column="dtpic" jdbcType="VARCHAR" property="dtpic"></result>
+        <result column="dtcreatetime" jdbcType="TIMESTAMP" property="dtcreatetime"></result>
+        <result column="is_deleted" jdbcType="TINYINT" property="is_deleted"></result>
+        <result column="is_locked" jdbcType="TINYINT" property="is_locked"></result>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        dtid, userid, dtcontent,dtpic,dtcreatetime,is_deleted,is_locked
+    </sql>
+
+    <select id="getDongtaiByDtid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from dongtai
+        where dtid=#{dtid,jdbcType=BIGINT}
+    </select>
+
+    <select id="getBiggerCountOfDtid" parameterType="java.lang.Long" resultType="int">
+        select count(*)
+        from dongtai
+        where dtid > #{dtid}
+    </select>
+
+    <select id="findDongtaiBackList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from dongtai
+        where is_deleted=0 and is_locked=0
+        order by dtid desc
+        limit #{pos},#{limit}
+    </select>
+
+    <select id="findDongtaiNewList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from dongtai
+        where is_deleted=0 and is_locked=0
+        order by dtid desc
+        limit 0,#{num}
+    </select>
+
+
+    <update id="deleteByDtid" parameterType="java.lang.Long">
+        update dongtai set is_deleted=1
+        where dtid=#{dtid,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="lan.qxc.lightserver.entity.Dongtai">
+         insert into dongtai(dtid, userid, dtcontent,dtpic,dtcreatetime,is_deleted,is_locked)
+        values (#{dtid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{dtcontent,jdbcType=VARCHAR},#{dtpic,jdbcType=VARCHAR},
+        #{dtcreatetime,jdbcType=TIMESTAMP}, #{is_deleted,jdbcType=TINYINT}, #{is_locked,jdbcType=TINYINT})
+    </insert>
+
+    <insert id="insertSelective" parameterType="lan.qxc.lightserver.entity.Dongtai">
+        insert into dongtai
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dtid!=null">
+                dtid,
+            </if>
+            <if test="userid!=null">
+                userid,
+            </if>
+            <if test="dtcontent!=null">
+                dtcontent,
+            </if>
+            <if test="dtpic!=null">
+                dtpic,
+            </if>
+            <if test="dtcreatetime!=null">
+                dtcreatetime,
+            </if>
+            <if test="is_deleted!=null">
+                is_deleted,
+            </if>
+            <if test="is_locked!=null">
+                is_locked,
+            </if>
+        </trim>
+
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="dtid!=null">
+                #{dtid,jdbcType=BIGINT},
+            </if>
+            <if test="userid!=null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="dtcontent!=null">
+                #{dtcontent,jdbcType=VARCHAR},
+            </if>
+            <if test="dtpic!=null">
+                #{dtpic,jdbcType=VARCHAR},
+            </if>
+            <if test="dtcreatetime!=null">
+                #{dtcreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="is_deleted!=null">
+                #{is_deleted,jdbcType=TINYINT},
+            </if>
+            <if test="is_locked!=null">
+                #{is_locked,jdbcType=TINYINT},
+            </if>
+        </trim>
+
+    </insert>
+
+
+    <update id="updateByDtid" parameterType="lan.qxc.lightserver.entity.Dongtai">
+        update dongtai
+        set  userid=#{userid,jdbcType=BIGINT},
+         dtcontent=#{dtcontent,jdbcType=VARCHAR},
+         dtpic=#{dtpic,jdbcType=VARCHAR},
+        dtcreatetime=#{dtcreatetime,jdbcType=TIMESTAMP},
+        is_deleted=#{is_deleted,jdbcType=TINYINT},
+        is_locked=#{birthday,jdbcType=TINYINT},
+        where  dtid=#{dtid,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByDtidSelective" parameterType="lan.qxc.lightserver.entity.Dongtai">
+        update dongtai
+        <set>
+            <if test="userid!=null">
+                userid=#{userid,jdbcType=BIGINT},
+            </if>
+            <if test="dtcontent!=null">
+                dtcontent=#{dtcontent,jdbcType=VARCHAR},
+            </if>
+            <if test="dtpic!=null">
+                dtpic=#{dtpic,jdbcType=VARCHAR},
+            </if>
+            <if test="dtcreatetime!=null">
+                dtcreatetime=#{dtcreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="is_deleted!=null">
+                is_deleted=#{is_deleted,jdbcType=TINYINT},
+            </if>
+            <if test="is_locked!=null">
+                is_locked=#{is_locked,jdbcType=TINYINT},
+            </if>
+        </set>
+        where  dtid=#{dtid,jdbcType=BIGINT}
+    </update>
+
+
+</mapper>
