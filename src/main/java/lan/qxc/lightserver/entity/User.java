@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -31,5 +34,7 @@ public class User implements Serializable {
 
     private Byte is_deleted;
     private Byte is_locked;
+
+
 
 }

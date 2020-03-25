@@ -23,8 +23,19 @@ public class WebConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+        registry.addResourceHandler(Constants.DONGTAI_IC_FILE_ACCESS_PATH+"**")
+                .addResourceLocations("file:"+ Constants.DONGTAI_IC_FILE_UPLOAD_PATH);
+
+        registry.addResourceHandler(Constants.DONGTAI_IC_SL_FILE_ACCESS_PATH+"**")
+                .addResourceLocations("file:"+ Constants.DONGTAI_IC_SL_FILE_UPLOAD_PATH);
+
         registry.addResourceHandler(Constants.HEADIC_FILE_ACCESS_PATH+"**")
                 .addResourceLocations("file:"+ Constants.HEADIC_FILE_UPLOAD_PATH);
+
+
+
+
     }
 
 
