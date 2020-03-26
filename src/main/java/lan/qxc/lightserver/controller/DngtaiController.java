@@ -102,12 +102,13 @@ public class DngtaiController {
 
 
     @PostMapping(DongtaiAPI.ADD_DONGTAI_NOT_PIC)
-    private Result addDongtaiNotPic(@RequestParam("dttext")String dttext ,@RequestParam("userid") Long userid){
+    private Result addDongtaiNotPic(@RequestParam("dttext")String dttext ,@RequestParam("deviceinfo")String deviceinfo ,@RequestParam("userid") Long userid){
 
         System.out.println("addDongtaiNotPic....");
 
         Dongtai dongtai = new Dongtai();
         dongtai.setUserid(userid);
+        dongtai.setDeviceinfo(deviceinfo);
         if(!dttext.isEmpty()&&!dttext.trim().equals("")){
             dongtai.setDtcontent(dttext);
         }
@@ -123,7 +124,7 @@ public class DngtaiController {
 
 
     @RequestMapping(DongtaiAPI.ADD_DONGTAI)
-    public Result addDongtai(@RequestParam("pic") MultipartFile[] uploadFiles, @RequestParam("dttext") String dttext,@RequestParam("userid") Long userid){
+    public Result addDongtai(@RequestParam("pic") MultipartFile[] uploadFiles, @RequestParam("dttext") String dttext,@RequestParam("deviceinfo")String deviceinfo ,@RequestParam("userid") Long userid){
 
         System.out.println("addDongtai......");
 //        if(file.isEmpty()){
@@ -161,6 +162,7 @@ public class DngtaiController {
 
         Dongtai dongtai = new Dongtai();
         dongtai.setUserid(userid);
+        dongtai.setDeviceinfo(deviceinfo);
         if(!dttext.isEmpty()&&!dttext.trim().equals("")){
             dongtai.setDtcontent(dttext);
         }

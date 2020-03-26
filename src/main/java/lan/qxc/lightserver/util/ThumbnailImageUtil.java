@@ -11,7 +11,7 @@ public class ThumbnailImageUtil {
     private static final String SSUFFIX = "_thumbnail";
 
     //按比例缩略 25%
-    private static final float SCALE = 0.25f;
+    private static final float SCALE = 0.33f;
 
     public static String thumbnailImage(String dirPath,String filename,String toDirPath){
         String filenameNotSuffix = filename.substring(0,filename.lastIndexOf("."));

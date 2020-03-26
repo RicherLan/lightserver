@@ -63,7 +63,7 @@ public class DongtaiServiceImpl implements DongtaiService {
     public List<DongtailVO> getDongtaiBackList(Long dtid) {
         int count = dongtaiMapper.getBiggerCountOfDtid(dtid);
         int begin = count+1;
-        List<Dongtai> dongtais = dongtaiMapper.findDongtaiBackList(begin,12);
+        List<Dongtai> dongtais = dongtaiMapper.findDongtaiBackList(begin,10);
         List<DongtailVO> dongtailVOS = new ArrayList<>();
 
         if(dongtais!=null&&dongtais.size()!=0){
@@ -83,7 +83,7 @@ public class DongtaiServiceImpl implements DongtaiService {
     @Override
     public List<DongtailVO> getDongtaiNewList() {
 
-        List<Dongtai> dongtais = dongtaiMapper.findDongtaiNewList(12);
+        List<Dongtai> dongtais = dongtaiMapper.findDongtaiNewList(10);
         List<DongtailVO> dongtailVOS = new ArrayList<>();
 
         if(dongtais!=null&&dongtais.size()!=0){

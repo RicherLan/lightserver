@@ -24,6 +24,8 @@ public class Dongtai implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:MM:ss",timezone = "GMT+8")
     private Date dtcreatetime;
 
+    private String deviceinfo;
+
     private Byte is_deleted;
     private Byte is_locked;
 

@@ -26,6 +26,6 @@ public class DongtailVO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:MM:ss",timezone = "GMT+8")
     private Date dtcreatetime;
 
-
+    private String deviceinfo;
 
 }

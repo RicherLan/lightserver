@@ -8,12 +8,14 @@
         <result column="dtcontent" jdbcType="VARCHAR" property="dtcontent"></result>
         <result column="dtpic" jdbcType="VARCHAR" property="dtpic"></result>
         <result column="dtcreatetime" jdbcType="TIMESTAMP" property="dtcreatetime"></result>
+        <result column="deviceinfo" jdbcType="VARCHAR" property="deviceinfo"></result>
+
         <result column="is_deleted" jdbcType="TINYINT" property="is_deleted"></result>
         <result column="is_locked" jdbcType="TINYINT" property="is_locked"></result>
     </resultMap>
 
     <sql id="Base_Column_List">
-        dtid, userid, dtcontent,dtpic,dtcreatetime,is_deleted,is_locked
+        dtid, userid, dtcontent,dtpic,dtcreatetime,deviceinfo,is_deleted,is_locked
     </sql>
 
     <select id="getDongtaiByDtid" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -54,9 +56,9 @@
     </update>
 
     <insert id="insert" parameterType="lan.qxc.lightserver.entity.Dongtai">
-         insert into dongtai(dtid, userid, dtcontent,dtpic,dtcreatetime,is_deleted,is_locked)
+         insert into dongtai(dtid, userid, dtcontent,dtpic,dtcreatetime,deviceinfo,is_deleted,is_locked)
         values (#{dtid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{dtcontent,jdbcType=VARCHAR},#{dtpic,jdbcType=VARCHAR},
-        #{dtcreatetime,jdbcType=TIMESTAMP}, #{is_deleted,jdbcType=TINYINT}, #{is_locked,jdbcType=TINYINT})
+        #{dtcreatetime,jdbcType=TIMESTAMP}, #{deviceinfo,jdbcType=VARCHAR},#{is_deleted,jdbcType=TINYINT}, #{is_locked,jdbcType=TINYINT})
     </insert>
 
     <insert id="insertSelective" parameterType="lan.qxc.lightserver.entity.Dongtai">
@@ -76,6 +78,9 @@
             </if>
             <if test="dtcreatetime!=null">
                 dtcreatetime,
+            </if>
+            <if test="deviceinfo!=null">
+                deviceinfo,
             </if>
             <if test="is_deleted!=null">
                 is_deleted,
@@ -101,6 +106,9 @@
             <if test="dtcreatetime!=null">
                 #{dtcreatetime,jdbcType=TIMESTAMP},
             </if>
+            <if test="deviceinfo!=null">
+                #{deviceinfo,jdbcType=VARCHAR},
+            </if>
             <if test="is_deleted!=null">
                 #{is_deleted,jdbcType=TINYINT},
             </if>
@@ -118,6 +126,7 @@
          dtcontent=#{dtcontent,jdbcType=VARCHAR},
          dtpic=#{dtpic,jdbcType=VARCHAR},
         dtcreatetime=#{dtcreatetime,jdbcType=TIMESTAMP},
+        deviceinfo=#{deviceinfo,jdbcType=VARCHAR},
         is_deleted=#{is_deleted,jdbcType=TINYINT},
         is_locked=#{birthday,jdbcType=TINYINT},
         where  dtid=#{dtid,jdbcType=BIGINT}
@@ -137,6 +146,9 @@
             </if>
             <if test="dtcreatetime!=null">
                 dtcreatetime=#{dtcreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deviceinfo!=null">
+                dtpic=#{deviceinfo,jdbcType=VARCHAR},
             </if>
             <if test="is_deleted!=null">
                 is_deleted=#{is_deleted,jdbcType=TINYINT},
