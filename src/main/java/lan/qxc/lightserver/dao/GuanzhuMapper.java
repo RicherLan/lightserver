@@ -27,6 +27,15 @@ public interface GuanzhuMapper {
     int updateByGzidSelective(Guanzhu guanzhu);
 
     /**
+     * userid是否关注了gzuid
+     * @param userid
+     * @param gzuid
+     * @return
+     */
+    Byte isGuanzhuByUid(@Param("userid")Long userid,@Param("gzuid") Long gzuid);
+
+
+    /**
      * 修改  根据两个用户的id
      * @param guanzhu
      * @return
@@ -62,6 +71,29 @@ public interface GuanzhuMapper {
      * @return
      */
     List<Long> getUsersGuanzhuMe(Long userid);
+
+
+    /**
+     * 获得我的关注的数量
+     * @param userid
+     * @return
+     */
+    int getMyGuanzhuNum(Long userid);
+
+    /**
+     * 获得关注我的人的数量
+     * @param userid
+     * @return
+     */
+    int getGuanzhuMeNum(Long userid);
+
+    /**
+     * 获得我的好友的数量
+     * @param userid
+     * @return
+     */
+    int getMyFriendNum(Long userid);
+
 
 
 }

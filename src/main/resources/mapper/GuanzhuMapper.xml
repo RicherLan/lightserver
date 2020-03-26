@@ -17,16 +17,37 @@
     </sql>
 
     <select id="getMyGuanzhu" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        select from guanzhu
+        select
         <include refid="Base_Column_List"></include>
+        from guanzhu
         where userid=#{userid,jdbcType=BIGINT}
     </select>
 
-    <select id="getUsersGuanzhuMe" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        select from guanzhu
-        <include refid="Base_Column_List"></include>
-        where gzuid=#{userid,jdbcType=BIGINT}
+    <select id="getUsersGuanzhuMe" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select userid
+        from guanzhu
+        where gzuid=#{userid,jdbcType=BIGINT} and is_deleted=0
     </select>
+
+
+    <select id="isGuanzhuByUid" resultType="java.lang.Byte">
+        select is_deleted from guanzhu
+        where userid=#{userid,jdbcType=BIGINT} and gzuid=#{gzuid,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="getMyGuanzhuNum" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select COUNT(*)
+        from guanzhu
+        where userid=#{userid,jdbcType=BIGINT}
+    </select>
+
+    <select id="getGuanzhuMeNum" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select COUNT(*)
+        from guanzhu
+        where gzuid=#{gzuid,jdbcType=BIGINT}
+    </select>
+
 
     <insert id="insert" parameterType="lan.qxc.lightserver.entity.Guanzhu">
         insert into guanzhu(gzid, userid, gzuid,createtime,remarkname,is_deleted,is_blacked)
@@ -92,19 +113,19 @@
                 userid=#{userid,jdbcType=BIGINT},
             </if>
             <if test="gzuid!=null">
-                gzuid=#{userid,jdbcType=BIGINT},
+                gzuid=#{gzuid,jdbcType=BIGINT},
             </if>
             <if test="createtime!=null">
-                createtime=#{userid,jdbcType=TIMESTAMP},
+                createtime=#{createtime,jdbcType=TIMESTAMP},
             </if>
             <if test="remarkname!=null">
-                remarkname=#{userid,jdbcType=VARCHAR},
+                remarkname=#{remarkname,jdbcType=VARCHAR},
             </if>
             <if test="is_deleted!=null">
-                is_deleted=#{userid,jdbcType=TINYINT},
+                is_deleted=#{is_deleted,jdbcType=TINYINT},
             </if>
             <if test="is_blacked!=null">
-                is_blacked=#{userid,jdbcType=TINYINT},
+                is_blacked=#{is_blacked,jdbcType=TINYINT},
             </if>
         </set>
         where gzid=#{gzid,jdbcType=BIGINT}
@@ -113,20 +134,17 @@
     <update id="updateByUseridSelective" parameterType="lan.qxc.lightserver.entity.Guanzhu">
         update guanzhu
         <set>
-            <if test="gzuid!=null">
-                gzuid=#{userid,jdbcType=BIGINT},
-            </if>
             <if test="createtime!=null">
-                createtime=#{userid,jdbcType=TIMESTAMP},
+                createtime=#{createtime,jdbcType=TIMESTAMP},
             </if>
             <if test="remarkname!=null">
-                remarkname=#{userid,jdbcType=VARCHAR},
+                remarkname=#{remarkname,jdbcType=VARCHAR},
             </if>
             <if test="is_deleted!=null">
-                is_deleted=#{userid,jdbcType=TINYINT},
+                is_deleted=#{is_deleted,jdbcType=TINYINT},
             </if>
             <if test="is_blacked!=null">
-                is_blacked=#{userid,jdbcType=TINYINT},
+                is_blacked=#{is_blacked,jdbcType=TINYINT},
             </if>
         </set>
         where userid=#{userid,jdbcType=BIGINT} and gzuid=#{gzuid,jdbcType=BIGINT}
@@ -139,7 +157,7 @@
         where gzid=#{gzid,jdbcType=BIGINT}
     </update>
 
-    <update id="deleteByUserid" parameterType="java.lang.Long">
+    <update id="deleteByUserid">
         update guanzhu
         set is_deleted=1
         where userid=#{userid,jdbcType=BIGINT} and gzuid=#{gzuid,jdbcType=BIGINT}
