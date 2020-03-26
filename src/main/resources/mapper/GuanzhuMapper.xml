@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lan.qxc.lightserver.dao.GuanzhuMapper">
+
+    <resultMap id="BaseResultMap" type="lan.qxc.lightserver.entity.Guanzhu">
+        <id column="gzid" jdbcType="BIGINT" property="gzid"></id>
+        <result column="userid" jdbcType="BIGINT" property="userid"></result>
+        <result column="gzuid" jdbcType="BIGINT" property="gzuid"></result>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"></result>
+        <result column="remarkname" jdbcType="VARCHAR" property="remarkname"></result>
+        <result column="is_deleted" jdbcType="TINYINT" property="is_deleted"></result>
+        <result column="is_blacked" jdbcType="TINYINT" property="is_blacked"></result>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        gzid, userid, gzuid,createtime,remarkname,is_deleted,is_blacked
+    </sql>
+
+    <select id="getMyGuanzhu" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select from guanzhu
+        <include refid="Base_Column_List"></include>
+        where userid=#{userid,jdbcType=BIGINT}
+    </select>
+
+    <select id="getUsersGuanzhuMe" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select from guanzhu
+        <include refid="Base_Column_List"></include>
+        where gzuid=#{userid,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" parameterType="lan.qxc.lightserver.entity.Guanzhu">
+        insert into guanzhu(gzid, userid, gzuid,createtime,remarkname,is_deleted,is_blacked)
+        values (#{gzid,jdbcType=BIGINT},#{userid,jdbcType=BIGINT},#{gzuid,jdbcType=BIGINT},#{createtime,jdbcType=TIMESTAMP},
+        #{remarkname,jdbcType=VARCHAR},#{is_deleted,jdbcType=TINYINT},#{is_blacked,jdbcType=TINYINT})
+    </insert>
+
+    <insert id="insertSelective" parameterType="lan.qxc.lightserver.entity.Guanzhu">
+        insert into guanzhu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gzid!=null">
+                gzid,
+            </if>
+            <if test="userid!=null">
+                userid,
+            </if>
+            <if test="gzuid!=null">
+                gzuid,
+            </if>
+            <if test="createtime!=null">
+                createtime,
+            </if>
+            <if test="remarkname!=null">
+                remarkname,
+            </if>
+            <if test="is_deleted!=null">
+                is_deleted,
+            </if>
+            <if test="is_blacked!=null">
+                is_blacked,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="gzid!=null">
+                #{gzid,jdbcType=BIGINT},
+            </if>
+            <if test="userid!=null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="gzuid!=null">
+                #{gzuid,jdbcType=BIGINT},
+            </if>
+            <if test="createtime!=null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remarkname!=null">
+                #{remarkname,jdbcType=VARCHAR},
+            </if>
+            <if test="is_deleted!=null">
+                #{is_deleted,jdbcType=TINYINT},
+            </if>
+            <if test="is_blacked!=null">
+                #{is_blacked,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByGzidSelective" parameterType="lan.qxc.lightserver.entity.Guanzhu">
+        update guanzhu
+        <set>
+            <if test="userid!=null">
+                userid=#{userid,jdbcType=BIGINT},
+            </if>
+            <if test="gzuid!=null">
+                gzuid=#{userid,jdbcType=BIGINT},
+            </if>
+            <if test="createtime!=null">
+                createtime=#{userid,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remarkname!=null">
+                remarkname=#{userid,jdbcType=VARCHAR},
+            </if>
+            <if test="is_deleted!=null">
+                is_deleted=#{userid,jdbcType=TINYINT},
+            </if>
+            <if test="is_blacked!=null">
+                is_blacked=#{userid,jdbcType=TINYINT},
+            </if>
+        </set>
+        where gzid=#{gzid,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByUseridSelective" parameterType="lan.qxc.lightserver.entity.Guanzhu">
+        update guanzhu
+        <set>
+            <if test="gzuid!=null">
+                gzuid=#{userid,jdbcType=BIGINT},
+            </if>
+            <if test="createtime!=null">
+                createtime=#{userid,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remarkname!=null">
+                remarkname=#{userid,jdbcType=VARCHAR},
+            </if>
+            <if test="is_deleted!=null">
+                is_deleted=#{userid,jdbcType=TINYINT},
+            </if>
+            <if test="is_blacked!=null">
+                is_blacked=#{userid,jdbcType=TINYINT},
+            </if>
+        </set>
+        where userid=#{userid,jdbcType=BIGINT} and gzuid=#{gzuid,jdbcType=BIGINT}
+    </update>
+
+
+    <update id="deleteByGzid" parameterType="java.lang.Long">
+        update guanzhu
+        set is_deleted=1
+        where gzid=#{gzid,jdbcType=BIGINT}
+    </update>
+
+    <update id="deleteByUserid" parameterType="java.lang.Long">
+        update guanzhu
+        set is_deleted=1
+        where userid=#{userid,jdbcType=BIGINT} and gzuid=#{gzuid,jdbcType=BIGINT}
+    </update>
+
+</mapper>
