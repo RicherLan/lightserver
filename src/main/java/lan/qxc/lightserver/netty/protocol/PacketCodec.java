@@ -7,6 +7,12 @@ import lan.qxc.lightserver.netty.serialize.impl.JSONSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/*
+ * 一个数据包的格式为
+ * 魔数(4字节)   版本号(1字节)  序列化算法(1字节)  指令(4字节)  数据长度(4字节)  数据(n字节)
+ *
+ */
 public class PacketCodec {
 
     public static final int MAGIC_NUMBER = 0x12345678;
