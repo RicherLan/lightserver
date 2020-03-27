@@ -1,11 +1,15 @@
 package lan.qxc.lightserver.service.impl;
 
 import lan.qxc.lightserver.common.ServiceResultEnum;
+import lan.qxc.lightserver.dao.GuanzhuMapper;
 import lan.qxc.lightserver.dao.UserMapper;
 import lan.qxc.lightserver.entity.User;
+import lan.qxc.lightserver.service.GuanzhuService;
 import lan.qxc.lightserver.service.UserService;
 
+import lan.qxc.lightserver.util.BeanUtil;
 import lan.qxc.lightserver.util.MD5Util;
+import lan.qxc.lightserver.vo.PersonalInfo;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
@@ -14,14 +18,31 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private GuanzhuMapper guanzhuMapper;
+    @Resource
+    private GuanzhuService guanzhuService;
 
     @Override
-    public User login(String phone, String password) {
+    public PersonalInfo login(String phone, String password) {
 
         User user = userMapper.selectByPhone(phone);
         String passwordMD5 = MD5Util.MD5Encode(password, "UTF-8");
         if(user!=null&&user.getPhone().equals(phone)&&user.getPassword().equals(passwordMD5)){
-            return user;
+            PersonalInfo personalInfo = new PersonalInfo();
+            BeanUtil.copyProperties(user,personalInfo);
+            Long userid = user.getUserid();
+
+            int my_guanzhu_num = guanzhuMapper.getMyGuanzhuNum(userid);
+            int guanzhu_me_num = guanzhuMapper.getGuanzhuMeNum(userid);
+
+            int my_friend_num = guanzhuService.getMyFriendNum(userid);
+
+            personalInfo.setMy_guanzhu_num(my_guanzhu_num);
+            personalInfo.setGuanzhu_me_num(guanzhu_me_num);
+            personalInfo.setMy_friend_num(my_friend_num);
+
+            return personalInfo;
         }
 
         return null;

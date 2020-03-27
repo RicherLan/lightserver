@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-public class DngtaiController {
+public class DongtaiController {
 
     @Autowired
     DongtaiServiceImpl dongtaiService;
@@ -92,6 +92,28 @@ public class DngtaiController {
     private Result getDongtai_new_List(){
         System.out.println("getDongtai_new_List...");
         List<DongtailVO> dongtailVOS = dongtaiService.getDongtaiNewList();
+        if(dongtailVOS!=null){
+            return ResultGenerator.genSuccessResult(dongtailVOS);
+        }
+
+        return ResultGenerator.genFailResult(ServiceResultEnum.ERROR.getResult());
+    }
+
+    @PostMapping(DongtaiAPI.GET_USER_DONGTAI_BACK_LIST)
+    private Result getUserDongtai_Back_List(@RequestParam("userid") Long userid,@RequestParam("dtid") Long dtid){
+        System.out.println("getUserDongtai_Back_List...");
+        List<DongtailVO> dongtailVOS = dongtaiService.getUserDongtaiBackList(userid,dtid);
+        if(dongtailVOS!=null){
+            return ResultGenerator.genSuccessResult(dongtailVOS);
+        }
+
+        return ResultGenerator.genFailResult(ServiceResultEnum.ERROR.getResult());
+    }
+
+    @PostMapping(DongtaiAPI.GET_USER_DONGTAI_NEW_LIST)
+    private Result getUserDongtai_new_List(@RequestParam("userid") Long userid){
+        System.out.println("getUserDongtai_new_List...");
+        List<DongtailVO> dongtailVOS = dongtaiService.getUserDongtaiNewList(userid);
         if(dongtailVOS!=null){
             return ResultGenerator.genSuccessResult(dongtailVOS);
         }

@@ -3,6 +3,7 @@ package lan.qxc.lightserver;
 import lan.qxc.lightserver.netty.netty_server.NettyServer;
 import lan.qxc.lightserver.service.impl.UserServiceImpl;
 import lan.qxc.lightserver.test.Test;
+import lan.qxc.lightserver.util.FixedThreadPool;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,12 +31,13 @@ public class LightserverApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
+        FixedThreadPool.startThreadPool();
         nettyServer.start(port);
         Runtime.getRuntime().addShutdownHook(new Thread(){
             @Override
             public void run() {
                 nettyServer.shutdown();
+                FixedThreadPool.shutdownThreadPool();
             }
         });
 

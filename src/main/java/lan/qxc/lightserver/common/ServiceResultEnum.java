@@ -3,7 +3,7 @@ package lan.qxc.lightserver.common;
 public enum ServiceResultEnum {
 
     ERROR("error"),
-    SUCCESS("success"),
+    SUCCESS("SUCCESS"),
     LOGIN_FAIL("用户名或密码错误"),
     PHONE_HAS_EXIST("该手机号已注册"),
     USER_NICKNAME_HAS_EXIST("还昵称已存在"),

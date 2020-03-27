@@ -36,7 +36,6 @@ public class DongtaiServiceImpl implements DongtaiService {
 
     @Override
     public String deleteDongtai(Long dtid) {
-        System.out.println("deleteDongtai......");
         if(dongtaiMapper.deleteByDtid(dtid)>0){
             return ServiceResultEnum.SUCCESS.getResult();
         }
@@ -99,5 +98,51 @@ public class DongtaiServiceImpl implements DongtaiService {
 
         return dongtailVOS;
     }
+
+
+    //指定用户
+    //一下子刷新12条数据
+    @Override
+    public List<DongtailVO> getUserDongtaiBackList(Long userid,Long dtid) {
+        int count = dongtaiMapper.getUserBiggerCountOfDtid(userid,dtid);
+        int begin = count+1;
+        List<Dongtai> dongtais = dongtaiMapper.findUserDongtaiBackList(userid,begin,10);
+        List<DongtailVO> dongtailVOS = new ArrayList<>();
+
+        if(dongtais!=null&&dongtais.size()!=0){
+
+            for(Dongtai dongtai : dongtais){
+                User user = userMapper.selectByUserid(dongtai.getUserid());
+                DongtailVO dongtailVO = new DongtailVO();
+                BeanUtil.copyProperties(dongtai,dongtailVO);
+                BeanUtil.copyProperties(user,dongtailVO);
+                dongtailVOS.add(dongtailVO);
+            }
+        }
+
+        return dongtailVOS;
+    }
+
+    @Override
+    public List<DongtailVO> getUserDongtaiNewList(Long userid) {
+
+        List<Dongtai> dongtais = dongtaiMapper.findUserDongtaiNewList(userid,10);
+        List<DongtailVO> dongtailVOS = new ArrayList<>();
+
+        if(dongtais!=null&&dongtais.size()!=0){
+            for(Dongtai dongtai : dongtais){
+                System.out.println(dongtai.getUserid());
+                User user = userMapper.selectByUserid(dongtai.getUserid());
+                DongtailVO dongtailVO = new DongtailVO();
+                BeanUtil.copyProperties(dongtai,dongtailVO);
+                BeanUtil.copyProperties(user,dongtailVO);
+                dongtailVOS.add(dongtailVO);
+            }
+        }
+
+        return dongtailVOS;
+    }
+
+
 
 }

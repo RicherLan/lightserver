@@ -53,6 +53,15 @@ public interface DongtaiMapper {
     int getBiggerCountOfDtid(Long dtid);
 
     /**
+     * 某指定用户的动态
+     * @param userid /
+     * @param dtid
+     * @return
+     */
+    int getUserBiggerCountOfDtid(@Param("userid")Long userid,@Param("dtid")Long dtid);
+
+
+    /**
      * 从当前动态所在的位置的下一个位置  pos开始向前找limit条返回
      *
      * @param pos
@@ -62,11 +71,34 @@ public interface DongtaiMapper {
     List<Dongtai> findDongtaiBackList(@Param("pos") int pos, @Param("limit") int limit);
 
     /**
+     * 指定用户 的
+     * 从当前动态所在的位置的下一个位置  pos开始向前找limit条返回
+     *
+     * @param pos
+     * @param limit
+     * @return
+     */
+    List<Dongtai> findUserDongtaiBackList(@Param("userid") Long userid,@Param("pos") int pos, @Param("limit") int limit);
+
+    /**
      * 获得最新的num条数据
      * @param num
      * @return
      */
     List<Dongtai> findDongtaiNewList(@Param("num") int num);
+
+    /**
+     * 指定用户的
+     * 获得最新的num条数据
+     * @param num
+     * @return
+     */
+    List<Dongtai> findUserDongtaiNewList(@Param("userid") Long userid,@Param("num") int num);
+
+
+
+
+
 
 
 }

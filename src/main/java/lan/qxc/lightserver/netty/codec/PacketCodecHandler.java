@@ -28,6 +28,7 @@ public class PacketCodecHandler extends MessageToMessageCodec<ByteBuf, Packet> {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
+
         out.add(PacketCodec.INSTANCE.decode(msg));
     }
 

@@ -1,6 +1,7 @@
 package lan.qxc.lightserver.service;
 
 import lan.qxc.lightserver.entity.User;
+import lan.qxc.lightserver.vo.PersonalInfo;
 
 public interface UserService {
 
@@ -13,7 +14,7 @@ public interface UserService {
      * @param password
      * @return
      */
-    User login(String phone,String password);
+    PersonalInfo login(String phone, String password);
 
 
     /**

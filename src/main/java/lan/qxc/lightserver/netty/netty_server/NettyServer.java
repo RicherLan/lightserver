@@ -11,6 +11,7 @@ import lan.qxc.lightserver.netty.codec.Spliter;
 import lan.qxc.lightserver.netty.handler.net_handler.AuthHandler;
 import lan.qxc.lightserver.netty.handler.net_handler.HeartBeatRequestHandler;
 import lan.qxc.lightserver.netty.handler.net_handler.IMIdleStateHandler;
+import lan.qxc.lightserver.netty.handler.user_handler.LoginRequestHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -63,6 +64,7 @@ public class NettyServer {
                         //注册
 
                         //登录
+                        ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
 
                         ch.pipeline().addLast(AuthHandler.INSTANCE);
 

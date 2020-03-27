@@ -31,6 +31,14 @@
         where dtid > #{dtid}
     </select>
 
+    <select id="getUserBiggerCountOfDtid" resultType="int">
+        select count(*)
+        from dongtai
+        where userid=#{userid,jdbcType=BIGINT} and dtid > #{dtid,jdbcType=BIGINT}
+    </select>
+
+
+
     <select id="findDongtaiBackList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>
@@ -40,11 +48,29 @@
         limit #{pos},#{limit}
     </select>
 
+    <select id="findUserDongtaiBackList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from dongtai
+        where userid=#{userid,jdbcType=BIGINT} and is_deleted=0 and is_locked=0
+        order by dtid desc
+        limit #{pos},#{limit}
+    </select>
+
     <select id="findDongtaiNewList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>
         from dongtai
         where is_deleted=0 and is_locked=0
+        order by dtid desc
+        limit 0,#{num}
+    </select>
+
+    <select id="findUserDongtaiNewList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from dongtai
+        where userid=#{userid,jdbcType=BIGINT} and is_deleted=0 and is_locked=0
         order by dtid desc
         limit 0,#{num}
     </select>

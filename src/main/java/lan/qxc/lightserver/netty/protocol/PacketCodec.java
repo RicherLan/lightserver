@@ -1,11 +1,17 @@
 package lan.qxc.lightserver.netty.protocol;
 
 import io.netty.buffer.ByteBuf;
+import lan.qxc.lightserver.netty.protocol.request.netRequest.HeartBeatRequestPacket;
+import lan.qxc.lightserver.netty.protocol.request.user_request.LoginRequestPacket;
+import lan.qxc.lightserver.netty.protocol.response.netResponse.HeartBeatResponsePacket;
+import lan.qxc.lightserver.netty.protocol.response.user_response.LoginResponsePacket;
 import lan.qxc.lightserver.netty.serialize.Serializer;
 import lan.qxc.lightserver.netty.serialize.impl.JSONSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static lan.qxc.lightserver.netty.protocol.command.Command.*;
 
 
 /*
@@ -25,8 +31,16 @@ public class PacketCodec {
 
     private PacketCodec(){
         packetTypeMap = new HashMap<>();
-        serializerMap = new HashMap<>();
 
+        packetTypeMap.put(HEARTBEAT_REQUEST, HeartBeatRequestPacket.class);
+        packetTypeMap.put(HEARTBEAT_RESPONSE, HeartBeatResponsePacket.class);
+
+        packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
+        packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+
+
+
+        serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
         serializerMap.put(serializer.getSerializerAlgorithm(), serializer);
     }

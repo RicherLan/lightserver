@@ -38,12 +38,32 @@ public interface DongtaiService {
      */
     List<DongtailVO> getDongtaiBackList(Long dtid);
 
+    /**
+     * 指定用户的
+     * 从dtid的动态向前找
+     * @param userid
+     * @param dtid
+     * @return
+     */
+    List<DongtailVO> getUserDongtaiBackList(Long userid,Long dtid);
+
 
     /**
      * 获得最新的几条数据
      * @return
      */
     List<DongtailVO> getDongtaiNewList();
+
+    /**
+     * 指定用户的
+     * 获得最新的几条数据
+     * @param userid
+     * @return
+     */
+    List<DongtailVO> getUserDongtaiNewList(Long userid);
+
+
+
 
 
 }

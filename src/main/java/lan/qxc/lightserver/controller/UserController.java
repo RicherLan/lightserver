@@ -8,6 +8,7 @@ import lan.qxc.lightserver.entity.User;
 import lan.qxc.lightserver.service.impl.UserServiceImpl;
 import lan.qxc.lightserver.util.Result;
 import lan.qxc.lightserver.util.ResultGenerator;
+import lan.qxc.lightserver.vo.PersonalInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -39,9 +40,9 @@ public class UserController {
             return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_PASSWORD_NULL.getResult());
         }
 
-        User user = userService.login(phone,password);
-        if(user!=null){
-            return ResultGenerator.genSuccessResult(user);
+        PersonalInfo personalInfo = userService.login(phone,password);
+        if(personalInfo!=null){
+            return ResultGenerator.genSuccessResult(personalInfo);
         }
 
         return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_FAIL.getResult());
