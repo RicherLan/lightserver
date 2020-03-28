@@ -1,6 +1,7 @@
 package lan.qxc.lightserver.service;
 
 import lan.qxc.lightserver.entity.FriendMsg;
+import lan.qxc.lightserver.netty.sender.message.FriendMsgVO;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface FriendMsgService {
      * @param userid
      * @return
      */
-    List<FriendMsg> getUserNotReadMsg(Long userid);
+    List<FriendMsgVO> getUserNotReadMsg(Long userid);
 
     /**
      * 设置某消息以读

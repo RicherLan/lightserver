@@ -7,6 +7,8 @@ import lan.qxc.lightserver.dao.UserMapper;
 import lan.qxc.lightserver.entity.FriendMsg;
 import lan.qxc.lightserver.entity.Guanzhu;
 import lan.qxc.lightserver.entity.User;
+import lan.qxc.lightserver.netty.sender.FriendMsgSender;
+import lan.qxc.lightserver.netty.sender.message.FriendMsgVO;
 import lan.qxc.lightserver.service.GuanzhuService;
 import lan.qxc.lightserver.util.BeanUtil;
 import lan.qxc.lightserver.vo.FriendVO;
@@ -51,6 +53,14 @@ public class GuanzhuServiceImpl implements GuanzhuService {
                     friendMsg.setUserid(userid);
                     friendMsg.setTouserid(gzuid);
                     friendMsg.setMsgtype(new Byte("1"));
+
+                    User user = userMapper.selectByUserid(userid);
+                    FriendMsgVO friendMsgVO = new FriendMsgVO();
+                    BeanUtil.copyProperties(friendMsg,friendMsgVO);
+                    BeanUtil.copyProperties(user,friendMsgVO);
+
+                    FriendMsgSender.getInstance().sendMsg(gzuid,friendMsgVO);
+
                     return friendMsgService.insert(friendMsg);
 
                 }
@@ -95,6 +105,14 @@ public class GuanzhuServiceImpl implements GuanzhuService {
                     friendMsg.setUserid(userid);
                     friendMsg.setTouserid(gzuid);
                     friendMsg.setMsgtype(new Byte("2"));
+
+
+                    User user = userMapper.selectByUserid(userid);
+                    FriendMsgVO friendMsgVO = new FriendMsgVO();
+                    BeanUtil.copyProperties(friendMsg,friendMsgVO);
+                    BeanUtil.copyProperties(user,friendMsgVO);
+                    FriendMsgSender.getInstance().sendMsg(gzuid,friendMsgVO);
+
                     return friendMsgService.insert(friendMsg);
 
                 }

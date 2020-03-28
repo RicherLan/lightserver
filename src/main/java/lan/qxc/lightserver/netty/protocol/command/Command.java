@@ -9,4 +9,7 @@ public interface Command {
     int LOGIN_REQUEST = 3;
     int LOGIN_RESPONSE = 4;
 
+    //用户关注、取关
+    int Friend_GUANZHU_MSG = 5;
+
 }

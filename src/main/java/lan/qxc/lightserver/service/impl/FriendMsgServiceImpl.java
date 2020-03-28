@@ -4,12 +4,15 @@ import lan.qxc.lightserver.common.ServiceResultEnum;
 import lan.qxc.lightserver.dao.FriendMsgMapper;
 import lan.qxc.lightserver.dao.UserMapper;
 import lan.qxc.lightserver.entity.FriendMsg;
+import lan.qxc.lightserver.entity.User;
 import lan.qxc.lightserver.service.FriendMsgService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lan.qxc.lightserver.util.BeanUtil;
+import lan.qxc.lightserver.netty.sender.message.FriendMsgVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,9 +42,22 @@ public class FriendMsgServiceImpl implements FriendMsgService {
     }
 
     @Override
-    public List<FriendMsg> getUserNotReadMsg(Long userid) {
+    public List<FriendMsgVO> getUserNotReadMsg(Long userid) {
+        List<FriendMsg> friendMsgS = friendMsgMapper.getUserNotReadMsg(userid);
+        if(friendMsgS==null){
+            return new ArrayList<>();
+        }
+        List<FriendMsgVO> friendMsgVOS = new ArrayList<>();
+        for(FriendMsg friendMsg : friendMsgS){
+            Long uid = friendMsg.getUserid();
+            User user = userMapper.selectByUserid(uid);
+            FriendMsgVO friendMsgVO = new FriendMsgVO();
+            BeanUtil.copyProperties(friendMsg,friendMsgVO);
+            BeanUtil.copyProperties(user,friendMsgVO);
+            friendMsgVOS.add(friendMsgVO);
+        }
 
-        return friendMsgMapper.getUserNotReadMsg(userid);
+        return friendMsgVOS;
     }
 
     @Override
