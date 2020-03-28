@@ -6,6 +6,7 @@ import lan.qxc.lightserver.common.api.GuanzhuAPI;
 import lan.qxc.lightserver.service.GuanzhuService;
 import lan.qxc.lightserver.util.Result;
 import lan.qxc.lightserver.util.ResultGenerator;
+import lan.qxc.lightserver.vo.FriendVO;
 import lan.qxc.lightserver.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,10 +74,10 @@ public class GuanzhuController {
 
         System.out.println("getMyGuanzhu......");
 
-        List<UserVO> userVOS = guanzhuService.getMyGuanzhu(userid);
+        List<FriendVO> friendVOS = guanzhuService.getMyGuanzhu(userid);
 
 
-        return ResultGenerator.genSuccessResult(userVOS);
+        return ResultGenerator.genSuccessResult(friendVOS);
 
     }
 
@@ -85,10 +86,10 @@ public class GuanzhuController {
 
         System.out.println("getUsersGuanzhuMe......");
 
-        List<UserVO> userVOS = guanzhuService.getUsersGuanzhuMe(userid);
+        List<FriendVO> friendVOS = guanzhuService.getUsersGuanzhuMe(userid);
 
 
-        return ResultGenerator.genSuccessResult(userVOS);
+        return ResultGenerator.genSuccessResult(friendVOS);
 
     }
 
@@ -98,9 +99,9 @@ public class GuanzhuController {
 
         System.out.println("getFriendsByUserid......");
 
-        List<UserVO> userVOS = guanzhuService.getFriendsByUserid(userid);
+        List<FriendVO> friendVOS = guanzhuService.getFriendsByUserid(userid);
 
-        return ResultGenerator.genSuccessResult(userVOS);
+        return ResultGenerator.genSuccessResult(friendVOS);
 
     }
 

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lan.qxc.lightserver.dao.FriendMsgMapper">
+
+    <resultMap id="BaseResultMap" type="lan.qxc.lightserver.entity.FriendMsg">
+        <id column="id" jdbcType="BIGINT" property="id"></id>
+        <result column="userid" jdbcType="BIGINT" property="userid"></result>
+        <result column="touserid" jdbcType="BIGINT" property="touserid"></result>
+        <result column="msgtype" jdbcType="TINYINT" property="msgtype"></result>
+        <result column="info" jdbcType="VARCHAR" property="info"></result>
+        <result column="readstate" jdbcType="TINYINT" property="readstate"></result>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"></result>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, userid, touserid,msgtype,info,readstate,createtime
+    </sql>
+
+    <select id="getUserNotReadMsg"  parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from friendmsg
+        where userid=#{userid,jdbcType=BIGINT} and readstate=0
+    </select>
+
+
+    <update id="setOldOfUseridandType">
+        update friendmsg
+        set readstate=2
+        where userid=#{userid,jdbcType=BIGINT} and touserid=#{touserid,jdbcType=BIGINT}
+    </update>
+
+
+    <insert id="insert" parameterType="lan.qxc.lightserver.entity.FriendMsg">
+         insert into friendmsg(id, userid, touserid,msgtype,info,readstate,createtime)
+        values (#{id,jdbcType=BIGINT},#{userid,jdbcType=BIGINT},#{touserid,jdbcType=BIGINT},#{msgtype,jdbcType=TINYINT},
+        #{info,jdbcType=VARCHAR},#{readstate,jdbcType=TINYINT},#{createtime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertSelective" parameterType="lan.qxc.lightserver.entity.FriendMsg">
+        insert into friendmsg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                id,
+            </if>
+            <if test="userid!=null">
+                userid,
+            </if>
+            <if test="touserid!=null">
+                touserid,
+            </if>
+            <if test="msgtype!=null">
+                msgtype,
+            </if>
+            <if test="info!=null">
+                info,
+            </if>
+            <if test="readstate!=null">
+                readstate,
+            </if>
+            <if test="createtime!=null">
+                createtime,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userid!=null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="touserid!=null">
+                #{touserid,jdbcType=BIGINT},
+            </if>
+            <if test="msgtype!=null">
+                #{msgtype,jdbcType=TINYINT},
+            </if>
+            <if test="info!=null">
+                #{info,jdbcType=VARCHAR},
+            </if>
+            <if test="readstate!=null">
+                #{readstate,jdbcType=TINYINT},
+            </if>
+            <if test="createtime!=null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByIdSelective" parameterType="lan.qxc.lightserver.entity.FriendMsg">
+        update friendmsg
+        <set>
+            <if test="userid!=null">
+                userid=#{userid,jdbcType=BIGINT},
+            </if>
+            <if test="touserid!=null">
+                touserid=#{touserid,jdbcType=BIGINT},
+            </if>
+            <if test="msgtype!=null">
+                msgtype=#{msgtype,jdbcType=TINYINT},
+            </if>
+            <if test="info!=null">
+                info=#{info,jdbcType=VARCHAR},
+            </if>
+            <if test="readstate!=null">
+                readstate=#{readstate,jdbcType=TINYINT},
+            </if>
+            <if test="createtime!=null">
+                createtime=#{createtime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id=#{id,jdbcType=BIGINT}
+    </update>
+
+
+
+</mapper>

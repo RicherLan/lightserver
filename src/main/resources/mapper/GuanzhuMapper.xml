@@ -20,8 +20,16 @@
         select
         <include refid="Base_Column_List"></include>
         from guanzhu
-        where userid=#{userid,jdbcType=BIGINT}
+        where userid=#{userid,jdbcType=BIGINT} and is_deleted=0
     </select>
+    <select id="getMyGuanzhuUserids" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select gzuid
+        <include refid="Base_Column_List"></include>
+        from guanzhu
+        where userid=#{userid,jdbcType=BIGINT} and is_deleted=0
+    </select>
+
+
 
     <select id="getUsersGuanzhuMe" parameterType="java.lang.Long" resultType="java.lang.Long">
         select userid
@@ -39,13 +47,13 @@
     <select id="getMyGuanzhuNum" parameterType="java.lang.Long" resultType="java.lang.Integer">
         select COUNT(*)
         from guanzhu
-        where userid=#{userid,jdbcType=BIGINT}
+        where userid=#{userid,jdbcType=BIGINT} and is_deleted=0
     </select>
 
     <select id="getGuanzhuMeNum" parameterType="java.lang.Long" resultType="java.lang.Integer">
         select COUNT(*)
         from guanzhu
-        where gzuid=#{gzuid,jdbcType=BIGINT}
+        where gzuid=#{gzuid,jdbcType=BIGINT} and is_deleted=0
     </select>
 
 

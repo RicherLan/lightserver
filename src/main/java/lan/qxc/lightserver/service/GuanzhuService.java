@@ -1,6 +1,7 @@
 package lan.qxc.lightserver.service;
 
 import lan.qxc.lightserver.entity.Guanzhu;
+import lan.qxc.lightserver.vo.FriendVO;
 import lan.qxc.lightserver.vo.UserVO;
 
 import java.util.List;
@@ -37,14 +38,14 @@ public interface GuanzhuService {
      * @param userid
      * @return
      */
-    List<UserVO> getMyGuanzhu(Long userid);
+    List<FriendVO> getMyGuanzhu(Long userid);
 
     /**
      * 获得关注我的用户信息
      * @param userid
      * @return
      */
-    List<UserVO> getUsersGuanzhuMe(Long userid);
+    List<FriendVO> getUsersGuanzhuMe(Long userid);
 
 
     /**
@@ -52,7 +53,7 @@ public interface GuanzhuService {
      * @param userid
      * @return
      */
-    List<UserVO> getFriendsByUserid(Long userid);
+    List<FriendVO> getFriendsByUserid(Long userid);
 
 
     /**

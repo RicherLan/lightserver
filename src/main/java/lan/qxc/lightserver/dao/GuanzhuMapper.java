@@ -65,6 +65,8 @@ public interface GuanzhuMapper {
      */
     List<Guanzhu> getMyGuanzhu(Long userid);
 
+    List<Long> getMyGuanzhuUserids(Long userid);
+
     /**
      * 获得谁关注了我   即获得我的粉丝
      * @param userid

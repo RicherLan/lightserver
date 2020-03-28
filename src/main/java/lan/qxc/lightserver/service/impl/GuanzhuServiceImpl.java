@@ -4,13 +4,16 @@ import com.sun.org.apache.regexp.internal.RE;
 import lan.qxc.lightserver.common.ServiceResultEnum;
 import lan.qxc.lightserver.dao.GuanzhuMapper;
 import lan.qxc.lightserver.dao.UserMapper;
+import lan.qxc.lightserver.entity.FriendMsg;
 import lan.qxc.lightserver.entity.Guanzhu;
 import lan.qxc.lightserver.entity.User;
 import lan.qxc.lightserver.service.GuanzhuService;
 import lan.qxc.lightserver.util.BeanUtil;
+import lan.qxc.lightserver.vo.FriendVO;
 import lan.qxc.lightserver.vo.GuanzhuVO;
 import lan.qxc.lightserver.vo.UserVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -24,8 +27,11 @@ public class GuanzhuServiceImpl implements GuanzhuService {
     GuanzhuMapper guanzhuMapper;
     @Resource
     UserMapper userMapper;
+    @Resource
+    FriendMsgServiceImpl friendMsgService;
 
     @Override
+    @Transactional
     public String guanzhu(Long userid, Long gzuid) {
 
         Byte is_deleted = guanzhuMapper.isGuanzhuByUid(userid,gzuid);
@@ -40,7 +46,13 @@ public class GuanzhuServiceImpl implements GuanzhuService {
                 gz.setIs_deleted(new Byte("0"));
 
                 if(guanzhuMapper.updateByUseridSelective(gz)>0){
-                    return ServiceResultEnum.SUCCESS.getResult();
+
+                    FriendMsg friendMsg = new FriendMsg();
+                    friendMsg.setUserid(userid);
+                    friendMsg.setTouserid(gzuid);
+                    friendMsg.setMsgtype(new Byte("1"));
+                    return friendMsgService.insert(friendMsg);
+
                 }
                 return ServiceResultEnum.ERROR.getResult();
             }
@@ -70,6 +82,7 @@ public class GuanzhuServiceImpl implements GuanzhuService {
     }
 
     @Override
+    @Transactional
     public String deleteGuanzhu(Long userid, Long gzuid) {
 
         Byte is_deleted = guanzhuMapper.isGuanzhuByUid(userid,gzuid);
@@ -77,7 +90,13 @@ public class GuanzhuServiceImpl implements GuanzhuService {
         if(is_deleted!=null){
             if(is_deleted==0){
                 if(guanzhuMapper.deleteByUserid(userid,gzuid)>0){
-                    return ServiceResultEnum.SUCCESS.getResult();
+
+                    FriendMsg friendMsg = new FriendMsg();
+                    friendMsg.setUserid(userid);
+                    friendMsg.setTouserid(gzuid);
+                    friendMsg.setMsgtype(new Byte("2"));
+                    return friendMsgService.insert(friendMsg);
+
                 }
                 return ServiceResultEnum.ERROR.getResult();
 
@@ -90,10 +109,10 @@ public class GuanzhuServiceImpl implements GuanzhuService {
     }
 
     @Override
-    public List<UserVO> getMyGuanzhu(Long userid) {
+    public List<FriendVO> getMyGuanzhu(Long userid) {
 
         List<Guanzhu> guanzhus = guanzhuMapper.getMyGuanzhu(userid);
-        List<UserVO> userVOS = new ArrayList<>();
+        List<FriendVO> userVOS = new ArrayList<>();
         if(guanzhus==null||guanzhus.size()==0){
             return userVOS;
         }
@@ -102,10 +121,11 @@ public class GuanzhuServiceImpl implements GuanzhuService {
             Long uid = guanzhu.getGzuid();
             User user = userMapper.selectByUserid(uid);
 
-            UserVO userVO = new UserVO();
+            FriendVO userVO = new FriendVO();
             BeanUtil.copyProperties(user,userVO);
             userVO.setRemark(guanzhu.getRemarkname());
             userVO.setIs_blacked(guanzhu.getIs_blacked());
+            userVO.setGuanzhu_type(1);
             userVOS.add(userVO);
         }
 
@@ -113,19 +133,31 @@ public class GuanzhuServiceImpl implements GuanzhuService {
     }
 
     @Override
-    public List<UserVO> getUsersGuanzhuMe(Long userid) {
+    public List<FriendVO> getUsersGuanzhuMe(Long userid) {
+        List<Long> myguanzhuUserids = guanzhuMapper.getMyGuanzhuUserids(userid);
+
         List<Long> guanzhus = guanzhuMapper.getUsersGuanzhuMe(userid);
-        List<UserVO> userVOS = new ArrayList<>();
+        List<FriendVO> userVOS = new ArrayList<>();
         if(guanzhus==null||guanzhus.size()==0){
             return userVOS;
         }
 
         for(Long uid : guanzhus){
             User user = userMapper.selectByUserid(uid);
-            UserVO userVO = new UserVO();
+            FriendVO userVO = new FriendVO();
             BeanUtil.copyProperties(user,userVO);
+            userVO.setGuanzhu_type(2);
             userVOS.add(userVO);
         }
+        //我也关注了我的粉丝
+        if(myguanzhuUserids!=null){
+            for(FriendVO friendVO : userVOS){
+                if(myguanzhuUserids.contains(friendVO.getUserid())){
+                    friendVO.setGuanzhu_type(1);
+                }
+            }
+        }
+
 
         return userVOS;
 
@@ -133,18 +165,18 @@ public class GuanzhuServiceImpl implements GuanzhuService {
 
     //我关注的人少  但是关注我的可能数量特别大   所以先拿到我关注的用户  然后判断该用户是否关注我了
     @Override
-    public List<UserVO> getFriendsByUserid(Long userid) {
+    public List<FriendVO> getFriendsByUserid(Long userid) {
 
-        List<UserVO> userVOS = getMyGuanzhu(userid);
-        List<UserVO> del = new ArrayList<>();
-        for(UserVO userVO : userVOS){
+        List<FriendVO> userVOS = getMyGuanzhu(userid);
+        List<FriendVO> del = new ArrayList<>();
+        for(FriendVO userVO : userVOS){
             Long uid = userVO.getUserid();
             Byte b = guanzhuMapper.isGuanzhuByUid(uid,userid);
             if(b==null||b!=0){
                 del.add(userVO);
             }
         }
-        for(UserVO userVO : del){
+        for(FriendVO userVO : del){
             userVOS.remove(userVO);
         }
         del = null;
@@ -163,7 +195,7 @@ public class GuanzhuServiceImpl implements GuanzhuService {
 
     @Override
     public Integer getMyFriendNum(Long userid) {
-        List<UserVO> list = getFriendsByUserid(userid);
+        List<FriendVO> list = getFriendsByUserid(userid);
         if(list==null){
             return 0;
         }
