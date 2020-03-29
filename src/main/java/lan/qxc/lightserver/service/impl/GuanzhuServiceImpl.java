@@ -31,6 +31,8 @@ public class GuanzhuServiceImpl implements GuanzhuService {
     UserMapper userMapper;
     @Resource
     FriendMsgServiceImpl friendMsgService;
+    @Resource
+    GuanzhuService guanzhuService;
 
     @Override
     @Transactional
@@ -72,7 +74,20 @@ public class GuanzhuServiceImpl implements GuanzhuService {
         gz.setUserid(userid);
         gz.setGzuid(gzuid);
         if(guanzhuMapper.insertSelective(gz)>0){
-            return ServiceResultEnum.SUCCESS.getResult();
+
+            FriendMsg friendMsg = new FriendMsg();
+            friendMsg.setUserid(userid);
+            friendMsg.setTouserid(gzuid);
+            friendMsg.setMsgtype(new Byte("1"));
+
+            User user = userMapper.selectByUserid(userid);
+            FriendMsgVO friendMsgVO = new FriendMsgVO();
+            BeanUtil.copyProperties(friendMsg,friendMsgVO);
+            BeanUtil.copyProperties(user,friendMsgVO);
+
+            FriendMsgSender.getInstance().sendMsg(gzuid,friendMsgVO);
+
+            return friendMsgService.insert(friendMsg);
         }
 
         return ServiceResultEnum.ERROR.getResult();
@@ -126,6 +141,7 @@ public class GuanzhuServiceImpl implements GuanzhuService {
         return ServiceResultEnum.ERROR.getResult();
     }
 
+
     @Override
     public List<FriendVO> getMyGuanzhu(Long userid) {
 
@@ -143,7 +159,7 @@ public class GuanzhuServiceImpl implements GuanzhuService {
             BeanUtil.copyProperties(user,userVO);
             userVO.setRemark(guanzhu.getRemarkname());
             userVO.setIs_blacked(guanzhu.getIs_blacked());
-            userVO.setGuanzhu_type(1);
+            userVO.setGuanzhu_type(guanzhuService.getUToURelation(userid,uid));
             userVOS.add(userVO);
         }
 
@@ -164,18 +180,9 @@ public class GuanzhuServiceImpl implements GuanzhuService {
             User user = userMapper.selectByUserid(uid);
             FriendVO userVO = new FriendVO();
             BeanUtil.copyProperties(user,userVO);
-            userVO.setGuanzhu_type(2);
+            userVO.setGuanzhu_type(guanzhuService.getUToURelation(userid,uid));
             userVOS.add(userVO);
         }
-        //我也关注了我的粉丝
-        if(myguanzhuUserids!=null){
-            for(FriendVO friendVO : userVOS){
-                if(myguanzhuUserids.contains(friendVO.getUserid())){
-                    friendVO.setGuanzhu_type(1);
-                }
-            }
-        }
-
 
         return userVOS;
 
@@ -198,6 +205,10 @@ public class GuanzhuServiceImpl implements GuanzhuService {
             userVOS.remove(userVO);
         }
         del = null;
+
+        for(FriendVO userVO : userVOS){
+            userVO.setGuanzhu_type(0);
+        }
         return userVOS;
     }
 
@@ -218,5 +229,24 @@ public class GuanzhuServiceImpl implements GuanzhuService {
             return 0;
         }
         return list.size();
+    }
+
+    @Override
+    public Integer getUToURelation(Long uid1, Long uid2) {
+
+        Byte b1 = guanzhuMapper.isGuanzhuByUid(uid1,uid2);
+        Byte b2 = guanzhuMapper.isGuanzhuByUid(uid2,uid1);
+
+        if(b1==null&&b2==null){
+            return 4;
+        }
+        if(b1!=null&&b2!=null){
+            return 0;
+        }
+        if(b1!=null&&b2==null){
+            return 1;
+        }
+
+        return 2;
     }
 }

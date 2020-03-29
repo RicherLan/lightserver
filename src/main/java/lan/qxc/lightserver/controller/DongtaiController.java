@@ -78,9 +78,9 @@ public class DongtaiController {
     }
 
     @PostMapping(DongtaiAPI.GET_DONGTAI_BACK_LIST)
-    private Result getDongtai_Back_List(@RequestParam("dtid") Long dtid){
+    private Result getDongtai_Back_List(@RequestParam("userid") Long userid,@RequestParam("dtid") Long dtid){
         System.out.println("getDongtai_Back_List...");
-        List<DongtailVO> dongtailVOS = dongtaiService.getDongtaiBackList(dtid);
+        List<DongtailVO> dongtailVOS = dongtaiService.getDongtaiBackList(userid,dtid);
         if(dongtailVOS!=null){
             return ResultGenerator.genSuccessResult(dongtailVOS);
         }
@@ -89,9 +89,10 @@ public class DongtaiController {
     }
 
     @PostMapping(DongtaiAPI.GET_DONGTAI_NEW_LIST)
-    private Result getDongtai_new_List(){
+    private Result getDongtai_new_List(@RequestParam("userid") Long userid){
         System.out.println("getDongtai_new_List...");
-        List<DongtailVO> dongtailVOS = dongtaiService.getDongtaiNewList();
+        List<DongtailVO> dongtailVOS = dongtaiService.getDongtaiNewList(userid);
+
         if(dongtailVOS!=null){
             return ResultGenerator.genSuccessResult(dongtailVOS);
         }
@@ -100,9 +101,9 @@ public class DongtaiController {
     }
 
     @PostMapping(DongtaiAPI.GET_USER_DONGTAI_BACK_LIST)
-    private Result getUserDongtai_Back_List(@RequestParam("userid") Long userid,@RequestParam("dtid") Long dtid){
+    private Result getUserDongtai_Back_List(@RequestParam("uid") Long uid,@RequestParam("userid") Long userid,@RequestParam("dtid") Long dtid){
         System.out.println("getUserDongtai_Back_List...");
-        List<DongtailVO> dongtailVOS = dongtaiService.getUserDongtaiBackList(userid,dtid);
+        List<DongtailVO> dongtailVOS = dongtaiService.getUserDongtaiBackList(uid,userid,dtid);
         if(dongtailVOS!=null){
             return ResultGenerator.genSuccessResult(dongtailVOS);
         }
@@ -111,9 +112,10 @@ public class DongtaiController {
     }
 
     @PostMapping(DongtaiAPI.GET_USER_DONGTAI_NEW_LIST)
-    private Result getUserDongtai_new_List(@RequestParam("userid") Long userid){
+    private Result getUserDongtai_new_List(@RequestParam("uid") Long uid,@RequestParam("userid") Long userid){
         System.out.println("getUserDongtai_new_List...");
-        List<DongtailVO> dongtailVOS = dongtaiService.getUserDongtaiNewList(userid);
+        List<DongtailVO> dongtailVOS = dongtaiService.getUserDongtaiNewList(uid,userid);
+
         if(dongtailVOS!=null){
             return ResultGenerator.genSuccessResult(dongtailVOS);
         }

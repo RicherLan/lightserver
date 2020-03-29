@@ -17,7 +17,7 @@ public class Guanzhu implements Serializable {
     private Long userid;
     private Long gzuid;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:MM:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createtime;
 
     private String remarkname;

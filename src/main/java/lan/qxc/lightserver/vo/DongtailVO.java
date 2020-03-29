@@ -23,9 +23,12 @@ public class DongtailVO implements Serializable {
     private String dtpic;
 
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:MM:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date dtcreatetime;
 
     private String deviceinfo;
+
+    //1代表我关注了他    2代表他关注了我   0代表好友   4代表都不是
+    private Integer guanzhu_type;
 
 }

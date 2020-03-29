@@ -3,15 +3,19 @@ package lan.qxc.lightserver.service.impl;
 import lan.qxc.lightserver.common.ServiceResultEnum;
 import lan.qxc.lightserver.dao.GuanzhuMapper;
 import lan.qxc.lightserver.dao.UserMapper;
+import lan.qxc.lightserver.entity.Guanzhu;
 import lan.qxc.lightserver.entity.User;
 import lan.qxc.lightserver.service.GuanzhuService;
 import lan.qxc.lightserver.service.UserService;
 
 import lan.qxc.lightserver.util.BeanUtil;
 import lan.qxc.lightserver.util.MD5Util;
+import lan.qxc.lightserver.vo.FriendVO;
 import lan.qxc.lightserver.vo.PersonalInfo;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -116,5 +120,23 @@ public class UserServiceImpl implements UserService {
         }
 
         return ServiceResultEnum.ERROR.getResult();
+    }
+
+
+    @Override
+    public FriendVO getUserDetailInifO(Long userid, Long uid) {
+        Guanzhu guanzhu = guanzhuMapper.getGuanzhuInfo(userid,uid);
+        System.out.println(guanzhu);
+            User user = userMapper.selectByUserid(uid);
+            FriendVO userVO = new FriendVO();
+            BeanUtil.copyProperties(user,userVO);
+            if(guanzhu!=null){
+                userVO.setRemark(guanzhu.getRemarkname());
+                userVO.setIs_blacked(guanzhu.getIs_blacked());
+            }
+
+            userVO.setGuanzhu_type(guanzhuService.getUToURelation(userid,uid));
+
+        return userVO;
     }
 }

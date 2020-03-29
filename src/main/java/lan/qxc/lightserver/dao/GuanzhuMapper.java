@@ -97,5 +97,13 @@ public interface GuanzhuMapper {
     int getMyFriendNum(Long userid);
 
 
+    /**
+     * 获得某用户对某用户的关注信息
+     * @param userid
+     * @param gzuid
+     * @return
+     */
+    Guanzhu getGuanzhuInfo(@Param("userid")Long userid,@Param("gzuid") Long gzuid);
+
 
 }

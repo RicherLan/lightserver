@@ -12,4 +12,6 @@ public interface UserAPI {
 
     String UPDATE_USER_PASSWORD = "/user/update/password";
 
+    String GET_USER_DETAIL_INFO = "/user/getdetail";
+
 }

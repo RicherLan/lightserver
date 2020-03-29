@@ -37,7 +37,6 @@ public class FriendMsgController {
         System.out.println("getFriendMsgNotReadMsg......");
 
         List<FriendMsgVO> friendMsgVOS = friendMsgService.getUserNotReadFriendMsg(userid);
-        System.out.println(friendMsgVOS.toString());
         return ResultGenerator.genSuccessResult(friendMsgVOS);
 
     }

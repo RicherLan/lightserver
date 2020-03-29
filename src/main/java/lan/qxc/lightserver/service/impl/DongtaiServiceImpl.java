@@ -3,12 +3,15 @@ package lan.qxc.lightserver.service.impl;
 
 import lan.qxc.lightserver.common.ServiceResultEnum;
 import lan.qxc.lightserver.dao.DongtaiMapper;
+import lan.qxc.lightserver.dao.GuanzhuMapper;
 import lan.qxc.lightserver.dao.UserMapper;
 import lan.qxc.lightserver.entity.Dongtai;
 import lan.qxc.lightserver.entity.User;
 import lan.qxc.lightserver.service.DongtaiService;
+import lan.qxc.lightserver.service.GuanzhuService;
 import lan.qxc.lightserver.util.BeanUtil;
 import lan.qxc.lightserver.vo.DongtailVO;
+import lan.qxc.lightserver.vo.FriendVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +25,11 @@ public class DongtaiServiceImpl implements DongtaiService {
     DongtaiMapper dongtaiMapper;
     @Resource
     UserMapper userMapper;
+    @Resource
+    GuanzhuMapper guanzhuMapper;
+
+    @Resource
+    GuanzhuService guanzhuService;
 
 
     @Override
@@ -59,7 +67,7 @@ public class DongtaiServiceImpl implements DongtaiService {
 
     //一下子刷新12条数据
     @Override
-    public List<DongtailVO> getDongtaiBackList(Long dtid) {
+    public List<DongtailVO> getDongtaiBackList(Long userid,Long dtid) {
         int count = dongtaiMapper.getBiggerCountOfDtid(dtid);
         int begin = count+1;
         List<Dongtai> dongtais = dongtaiMapper.findDongtaiBackList(begin,10);
@@ -72,6 +80,11 @@ public class DongtaiServiceImpl implements DongtaiService {
                 DongtailVO dongtailVO = new DongtailVO();
                 BeanUtil.copyProperties(dongtai,dongtailVO);
                 BeanUtil.copyProperties(user,dongtailVO);
+
+
+                dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(userid,dongtai.getUserid()));
+
+
                 dongtailVOS.add(dongtailVO);
             }
         }
@@ -80,7 +93,7 @@ public class DongtaiServiceImpl implements DongtaiService {
     }
 
     @Override
-    public List<DongtailVO> getDongtaiNewList() {
+    public List<DongtailVO> getDongtaiNewList(Long userid) {
 
         List<Dongtai> dongtais = dongtaiMapper.findDongtaiNewList(10);
         List<DongtailVO> dongtailVOS = new ArrayList<>();
@@ -92,6 +105,7 @@ public class DongtaiServiceImpl implements DongtaiService {
                 DongtailVO dongtailVO = new DongtailVO();
                 BeanUtil.copyProperties(dongtai,dongtailVO);
                 BeanUtil.copyProperties(user,dongtailVO);
+                dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(userid,dongtai.getUserid()));
                 dongtailVOS.add(dongtailVO);
             }
         }
@@ -103,7 +117,7 @@ public class DongtaiServiceImpl implements DongtaiService {
     //指定用户
     //一下子刷新12条数据
     @Override
-    public List<DongtailVO> getUserDongtaiBackList(Long userid,Long dtid) {
+    public List<DongtailVO> getUserDongtaiBackList(Long uid,Long userid,Long dtid) {
         int count = dongtaiMapper.getUserBiggerCountOfDtid(userid,dtid);
         int begin = count+1;
         List<Dongtai> dongtais = dongtaiMapper.findUserDongtaiBackList(userid,begin,10);
@@ -116,6 +130,7 @@ public class DongtaiServiceImpl implements DongtaiService {
                 DongtailVO dongtailVO = new DongtailVO();
                 BeanUtil.copyProperties(dongtai,dongtailVO);
                 BeanUtil.copyProperties(user,dongtailVO);
+                dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(uid,userid));
                 dongtailVOS.add(dongtailVO);
             }
         }
@@ -124,7 +139,7 @@ public class DongtaiServiceImpl implements DongtaiService {
     }
 
     @Override
-    public List<DongtailVO> getUserDongtaiNewList(Long userid) {
+    public List<DongtailVO> getUserDongtaiNewList(Long uid,Long userid) {
 
         List<Dongtai> dongtais = dongtaiMapper.findUserDongtaiNewList(userid,10);
         List<DongtailVO> dongtailVOS = new ArrayList<>();
@@ -136,6 +151,7 @@ public class DongtaiServiceImpl implements DongtaiService {
                 DongtailVO dongtailVO = new DongtailVO();
                 BeanUtil.copyProperties(dongtai,dongtailVO);
                 BeanUtil.copyProperties(user,dongtailVO);
+                dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(uid,userid));
                 dongtailVOS.add(dongtailVO);
             }
         }

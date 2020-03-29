@@ -36,7 +36,7 @@ public interface DongtaiService {
      * @param dtid
      * @return
      */
-    List<DongtailVO> getDongtaiBackList(Long dtid);
+    List<DongtailVO> getDongtaiBackList(Long userid,Long dtid);
 
     /**
      * 指定用户的
@@ -45,14 +45,14 @@ public interface DongtaiService {
      * @param dtid
      * @return
      */
-    List<DongtailVO> getUserDongtaiBackList(Long userid,Long dtid);
+    List<DongtailVO> getUserDongtaiBackList(Long uid,Long userid,Long dtid);
 
 
     /**
      * 获得最新的几条数据
      * @return
      */
-    List<DongtailVO> getDongtaiNewList();
+    List<DongtailVO> getDongtaiNewList(Long userid);
 
     /**
      * 指定用户的
@@ -60,7 +60,7 @@ public interface DongtaiService {
      * @param userid
      * @return
      */
-    List<DongtailVO> getUserDongtaiNewList(Long userid);
+    List<DongtailVO> getUserDongtaiNewList(Long uid,Long userid);
 
 
 

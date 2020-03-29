@@ -23,6 +23,13 @@
         where userid=#{userid,jdbcType=BIGINT} and is_deleted=0
         order by gzid desc
     </select>
+
+    <select id="getGuanzhuInfo" resultType="lan.qxc.lightserver.entity.Guanzhu">
+        select * from guanzhu
+        where userid=#{userid,jdbcType=BIGINT} and gzuid=#{gzuid,jdbcType=BIGINT} and is_deleted=0
+        order by gzid desc
+    </select>
+
     <select id="getMyGuanzhuUserids" parameterType="java.lang.Long" resultType="java.lang.Long">
         select gzuid
         <include refid="Base_Column_List"></include>

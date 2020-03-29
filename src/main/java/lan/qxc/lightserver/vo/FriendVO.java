@@ -13,6 +13,7 @@ import java.util.Date;
 public class FriendVO {
 
     private Long userid;
+    private String phone;
     private String username;
     private Byte sex;
     private String icon;

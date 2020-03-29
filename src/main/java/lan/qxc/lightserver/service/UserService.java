@@ -1,6 +1,7 @@
 package lan.qxc.lightserver.service;
 
 import lan.qxc.lightserver.entity.User;
+import lan.qxc.lightserver.vo.FriendVO;
 import lan.qxc.lightserver.vo.PersonalInfo;
 
 public interface UserService {
@@ -59,6 +60,15 @@ public interface UserService {
      * @return
      */
     String updatePassword(Long userid,String oldpassword,String newpassword);
+
+
+    /**
+     * 获得uid用户的详细信息
+     * @param userid
+     * @param uid
+     * @return
+     */
+    FriendVO getUserDetailInifO(Long userid,Long uid);
 
 
 }

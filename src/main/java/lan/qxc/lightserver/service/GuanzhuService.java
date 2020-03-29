@@ -77,4 +77,14 @@ public interface GuanzhuService {
      */
     Integer getMyFriendNum(Long userid);
 
+
+    /**
+     * 两个用户之间的关系
+     * 1代表我关注了他    2代表他关注了我   0代表好友   4代表都不是
+     * @param uid1
+     * @param uid2
+     * @return
+     */
+    Integer getUToURelation(Long uid1,Long uid2);
+
 }

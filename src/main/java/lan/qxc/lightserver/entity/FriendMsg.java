@@ -21,7 +21,7 @@ public class FriendMsg {
     private String info;
     private Byte readstate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:MM:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createtime;
 
 

@@ -8,6 +8,7 @@ import lan.qxc.lightserver.entity.User;
 import lan.qxc.lightserver.service.impl.UserServiceImpl;
 import lan.qxc.lightserver.util.Result;
 import lan.qxc.lightserver.util.ResultGenerator;
+import lan.qxc.lightserver.vo.FriendVO;
 import lan.qxc.lightserver.vo.PersonalInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,6 +155,20 @@ public class UserController {
         }
 
         return ResultGenerator.genFailResult(res);
+    }
+
+    @RequestMapping(UserAPI.GET_USER_DETAIL_INFO)
+    public Result getUserDetailInfo(@RequestParam("userid")Long userid,
+                                     @RequestParam("uid") Long uid){
+
+        System.out.println("getUserDetailInfo......");
+        FriendVO friendVO = userService.getUserDetailInifO(userid,uid);
+        if(friendVO!=null){
+            System.out.println(friendVO.toString());
+            return ResultGenerator.genSuccessResult(friendVO);
+        }
+
+        return ResultGenerator.genFailResult("error");
     }
 
 
