@@ -42,8 +42,8 @@ public class FriendMsgServiceImpl implements FriendMsgService {
     }
 
     @Override
-    public List<FriendMsgVO> getUserNotReadMsg(Long userid) {
-        List<FriendMsg> friendMsgS = friendMsgMapper.getUserNotReadMsg(userid);
+    public List<FriendMsgVO> getUserNotReadFriendMsg(Long userid) {
+        List<FriendMsg> friendMsgS = friendMsgMapper.getUserNotReadFriendMsg(userid);
         if(friendMsgS==null){
             return new ArrayList<>();
         }
@@ -54,6 +54,7 @@ public class FriendMsgServiceImpl implements FriendMsgService {
             FriendMsgVO friendMsgVO = new FriendMsgVO();
             BeanUtil.copyProperties(friendMsg,friendMsgVO);
             BeanUtil.copyProperties(user,friendMsgVO);
+            friendMsgVO.setTime(friendMsgVO.getCreatetime());
             friendMsgVOS.add(friendMsgVO);
         }
 

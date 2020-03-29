@@ -16,11 +16,12 @@
         id, userid, touserid,msgtype,info,readstate,createtime
     </sql>
 
-    <select id="getUserNotReadMsg"  parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="getUserNotReadFriendMsg"  parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>
         from friendmsg
-        where userid=#{userid,jdbcType=BIGINT} and readstate=0
+        where touserid=#{touserid,jdbcType=BIGINT} and readstate=0
+        order by id desc
     </select>
 
 

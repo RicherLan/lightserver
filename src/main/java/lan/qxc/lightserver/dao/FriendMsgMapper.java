@@ -34,7 +34,7 @@ public interface FriendMsgMapper {
      * @param userid
      * @return
      */
-    List<FriendMsg> getUserNotReadMsg(Long userid);
+    List<FriendMsg> getUserNotReadFriendMsg(Long userid);
 
 
 

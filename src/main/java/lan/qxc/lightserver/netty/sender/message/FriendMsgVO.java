@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.Date;
 
+import static lan.qxc.lightserver.netty.sender.message.MessageType.FRIEND_MSG;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,4 +32,8 @@ public class FriendMsgVO extends Message implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:MM:ss",timezone = "GMT+8")
     private Date createtime;
 
+    @Override
+    public int getType() {
+        return FRIEND_MSG;
+    }
 }

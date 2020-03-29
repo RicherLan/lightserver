@@ -19,7 +19,7 @@ public interface FriendMsgService {
      * @param userid
      * @return
      */
-    List<FriendMsgVO> getUserNotReadMsg(Long userid);
+    List<FriendMsgVO> getUserNotReadFriendMsg(Long userid);
 
     /**
      * 设置某消息以读
