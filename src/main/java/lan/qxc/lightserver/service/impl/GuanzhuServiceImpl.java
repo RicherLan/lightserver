@@ -237,13 +237,21 @@ public class GuanzhuServiceImpl implements GuanzhuService {
         Byte b1 = guanzhuMapper.isGuanzhuByUid(uid1,uid2);
         Byte b2 = guanzhuMapper.isGuanzhuByUid(uid2,uid1);
 
-        if(b1==null&&b2==null){
-            return 4;
+        if(b1==null){
+            b1 = new Byte("1");
         }
-        if(b1!=null&&b2!=null){
+        if(b2==null){
+            b2 = new Byte("1");
+        }
+
+//        System.out.println(uid1+"   "+uid2+"     b1:"+b1+ "        b2"+b2);
+        if(b1==0&&b2==0){
             return 0;
         }
-        if(b1!=null&&b2==null){
+        if(b1!=0&&b2!=0){
+            return 4;
+        }
+        if(b1==0&&b2!=0){
             return 1;
         }
 

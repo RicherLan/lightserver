@@ -88,7 +88,9 @@ public class GuanzhuController {
 
         List<FriendVO> friendVOS = guanzhuService.getUsersGuanzhuMe(userid);
 
-
+        for(FriendVO friendVO : friendVOS){
+            System.out.println(friendVO.toString());
+        }
         return ResultGenerator.genSuccessResult(friendVOS);
 
     }
@@ -100,7 +102,6 @@ public class GuanzhuController {
         System.out.println("getFriendsByUserid......");
 
         List<FriendVO> friendVOS = guanzhuService.getFriendsByUserid(userid);
-
         return ResultGenerator.genSuccessResult(friendVOS);
 
     }
