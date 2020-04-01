@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+import static lan.qxc.lightserver.netty.sender.message.MessageType.SINGLE_CHAT_MSG;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SingleChatMsg {
+public class SingleChatMsg extends Message{
 
     private Long msgid;
 
@@ -37,4 +39,8 @@ public class SingleChatMsg {
 
     private Byte is_deleted;
 
+    @Override
+    public int getType() {
+        return SINGLE_CHAT_MSG;
+    }
 }

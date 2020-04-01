@@ -7,12 +7,13 @@ import lan.qxc.lightserver.service.SingleChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class SingleChatServiceImpl implements SingleChatService {
 
-    @Autowired
+    @Resource
     SingleChatMapper singleChatMapper;
 
     @Override
