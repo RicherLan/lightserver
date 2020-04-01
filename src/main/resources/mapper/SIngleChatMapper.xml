@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lan.qxc.lightserver.dao.SingleChatMapper">
+
+    <resultMap id="BaseResultMap" type="lan.qxc.lightserver.netty.sender.message.SingleChatMsg">
+
+        <id column="msgid" jdbcType="BIGINT" property="msgid"></id>
+        <result column="sendUid" jdbcType="BIGINT" property="sendUid"></result>
+        <result column="receiveUid" jdbcType="BIGINT" property="receiveUid"></result>
+
+        <result column="msgtype" jdbcType="TINYINT" property="msgtype"></result>
+
+        <result column="textbody" jdbcType="VARCHAR" property="textbody"></result>
+        <result column="picbody" jdbcType="VARCHAR" property="picbody"></result>
+        <result column="voicebody" jdbcType="VARCHAR" property="voicebody"></result>
+
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"></result>
+        <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime"></result>
+
+
+        <result column="readstate" jdbcType="TINYINT" property="readstate"></result>
+        <result column="is_deleted" jdbcType="TINYINT" property="is_deleted"></result>
+
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        msgid, sendUid, receiveUid,msgtype,dtcreatetime,picbody,voicebody,createtime,updatetime,readstate,is_deleted
+    </sql>
+
+    <select id="getMsgByMsgid" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"></include>
+        from singlechatmsg
+        where msgid=#{msgid,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="getMsgByMsgid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from singlechatmsg
+        where receiveUid=#{receiveUid,jdbcType=BIGINT} and is_deleted=0 and readstate=0
+    </select>
+
+    <select id="getMsgNotReadOfSendUid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from singlechatmsg
+        where sendUid=#{sendUid,jdbcType=BIGINT} and receiveUid=#{receiveUid,jdbcType=BIGINT} and is_deleted=0 and readstate=0
+    </select>
+
+
+
+    <insert id="insert" parameterType="lan.qxc.lightserver.netty.sender.message.SingleChatMsg">
+         insert into dongtai(msgid, sendUid,receiveUid, msgtype,textbody,picbody,voicebody,createtime,updatetime,readstate,is_deleted)
+        values (#{msgid,jdbcType=BIGINT}, #{sendUid,jdbcType=BIGINT}, #{receiveUid,jdbcType=BIGINT},
+        #{msgtype,jdbcType=TINYINT},#{textbody,jdbcType=VARCHAR},#{picbody,jdbcType=VARCHAR},#{voicebody,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP},#{readstate,jdbcType=TINYINT}, #{is_deleted,jdbcType=TINYINT})
+    </insert>
+
+    <insert id="insertSelective" parameterType="lan.qxc.lightserver.netty.sender.message.SingleChatMsg">
+        insert into singlechatmsg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="msgid!=null">
+                msgid,
+            </if>
+            <if test="sendUid!=null">
+                sendUid,
+            </if>
+            <if test="receiveUid!=null">
+                receiveUid,
+            </if>
+            <if test="msgtype!=null">
+                msgtype,
+            </if>
+            <if test="textbody!=null">
+                textbody,
+            </if>
+            <if test="picbody!=null">
+                picbody,
+            </if>
+            <if test="voicebody!=null">
+                voicebody,
+            </if>
+            <if test="createtime!=null">
+                createtime,
+            </if>
+            <if test="updatetime!=null">
+                updatetime,
+            </if>
+            <if test="readstate!=null">
+                readstate,
+            </if>
+            <if test="is_deleted!=null">
+                is_deleted,
+            </if>
+        </trim>
+
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="msgid!=null">
+                #{msgid,jdbcType=BIGINT},
+            </if>
+            <if test="sendUid!=null">
+                #{sendUid,jdbcType=BIGINT},
+            </if>
+            <if test="receiveUid!=null">
+                #{receiveUid,jdbcType=BIGINT},
+            </if>
+
+            <if test="msgtype!=null">
+                #{msgtype,jdbcType=TINYINT},
+            </if>
+
+            <if test="textbody!=null">
+                #{textbody,jdbcType=VARCHAR},
+            </if>
+            <if test="picbody!=null">
+                #{picbody,jdbcType=VARCHAR},
+            </if>
+            <if test="voicebody!=null">
+                #{voicebody,jdbcType=VARCHAR},
+            </if>
+
+
+            <if test="createtime!=null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime!=null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="readstate!=null">
+                #{readstate,jdbcType=TINYINT},
+            </if>
+            <if test="is_deleted!=null">
+                #{is_deleted,jdbcType=TINYINT},
+            </if>
+        </trim>
+
+    </insert>
+
+
+    <update id="setMsgHadReadByMsgid" parameterType="java.lang.Long">
+        update singlechatmsg
+        set readstate=1
+        where msgid=#{msgid,jdbcType=BIGINT}
+    </update>
+
+    <update id="setMsgHadReadByMsgid">
+        update singlechatmsg
+        set readstate=1
+        where sendUid=#{sendUid,jdbcType=BIGINT} and receiveUid=#{receiveUid,jdbcType=BIGINT}
+    </update>
+
+    <update id="deleteMsgByMsgid" parameterType="java.lang.Long">
+        update singlechatmsg
+        set is_deleted=1
+         where msgid=#{msgid,jdbcType=BIGINT}
+    </update>
+
+
+    <update id="updateByMsgIdSelective" parameterType="lan.qxc.lightserver.netty.sender.message.SingleChatMsg">
+        update singlechatmsg
+        <set>
+            <if test="sendUid!=null">
+                sendUid=#{sendUid,jdbcType=BIGINT},
+            </if>
+            <if test="receiveUid!=null">
+                receiveUid=#{receiveUid,jdbcType=BIGINT},
+            </if>
+
+            <if test="msgtype!=null">
+                msgtype=#{msgtype,jdbcType=TINYINT},
+            </if>
+
+            <if test="textbody!=null">
+                textbody=#{textbody,jdbcType=VARCHAR},
+            </if>
+            <if test="picbody!=null">
+                picbody=#{picbody,jdbcType=VARCHAR},
+            </if>
+            <if test="voicebody!=null">
+                voicebody=#{voicebody,jdbcType=VARCHAR},
+            </if>
+
+            <if test="createtime!=null">
+                createtime=#{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime!=null">
+                updatetime=#{updatetime,jdbcType=TIMESTAMP},
+            </if>
+
+
+            <if test="readstate!=null">
+                readstate=#{readstate,jdbcType=TINYINT},
+            </if>
+            <if test="is_deleted!=null">
+                is_deleted=#{is_deleted,jdbcType=TINYINT},
+            </if>
+        </set>
+        where  msgid=#{msgid,jdbcType=BIGINT}
+    </update>
+
+
+
+
+</mapper>

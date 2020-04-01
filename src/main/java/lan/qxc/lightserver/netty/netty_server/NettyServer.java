@@ -8,6 +8,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lan.qxc.lightserver.netty.codec.PacketCodecHandler;
 import lan.qxc.lightserver.netty.codec.Spliter;
+import lan.qxc.lightserver.netty.handler.IMHandler;
 import lan.qxc.lightserver.netty.handler.net_handler.AuthHandler;
 import lan.qxc.lightserver.netty.handler.net_handler.HeartBeatRequestHandler;
 import lan.qxc.lightserver.netty.handler.net_handler.IMIdleStateHandler;
@@ -69,6 +70,7 @@ public class NettyServer {
                         ch.pipeline().addLast(AuthHandler.INSTANCE);
 
                         //其他业务处理器
+                        ch.pipeline().addLast(IMHandler.INSTANCE);
                     }
                 });
 
