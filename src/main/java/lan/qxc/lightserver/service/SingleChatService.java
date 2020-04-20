@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface SingleChatService {
 
-    String insert(SingleChatMsg msg);
+    //返回主键自增id  即msgid
+    Long insert(SingleChatMsg msg);
 
     String updateByMsgId(Long msgid,SingleChatMsg msg);
 

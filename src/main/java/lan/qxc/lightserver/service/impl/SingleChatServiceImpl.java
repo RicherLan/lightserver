@@ -17,13 +17,13 @@ public class SingleChatServiceImpl implements SingleChatService {
     SingleChatMapper singleChatMapper;
 
     @Override
-    public String insert(SingleChatMsg msg) {
+    public Long insert(SingleChatMsg msg) {
 
         if(singleChatMapper.insertSelective(msg)>0){
-            return ServiceResultEnum.SUCCESS.getResult();
+            return msg.getMsgid();
         }
 
-        return ServiceResultEnum.ERROR.getResult();
+        return new Long(-1);
     }
 
     @Override

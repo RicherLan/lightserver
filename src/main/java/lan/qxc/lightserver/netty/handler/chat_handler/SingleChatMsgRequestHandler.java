@@ -48,13 +48,20 @@ public class SingleChatMsgRequestHandler extends SimpleChannelInboundHandler<Sin
             @Override
             public void run() {
 
-                String res = singleChatService.insert(singleChatRequestPacket.getSingleChatMsg());
+                Long msgid = singleChatService.insert(singleChatRequestPacket.getSingleChatMsg());
 
+                if(msgid==null||msgid.equals(new Long(-1))){
+                    return;
+                }
+                singleChatRequestPacket.getSingleChatMsg().setMsgid(msgid);
 
                 Channel channel = SessionUtil.getChannel(singleChatRequestPacket.getSingleChatMsg().getReceiveUid());
+
                 if(SessionUtil.hasLogin(channel)){
                     SingleChatMsgPacket singleChatMsgPacket = new SingleChatMsgPacket();
+                    singleChatMsgPacket.setSingleChatMsg(singleChatRequestPacket.getSingleChatMsg());
                     channel.writeAndFlush(singleChatMsgPacket);
+                    System.out.println("send  ok.......");
                 }
 
             }

@@ -43,4 +43,17 @@ public class SingleChatMsg extends Message{
     public int getType() {
         return SINGLE_CHAT_MSG;
     }
+
+
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+        this.updatetime = createtime;
+        this.setTime(createtime);
+    }
+
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
+        this.setTime(updatetime);
+    }
 }

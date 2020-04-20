@@ -25,7 +25,7 @@
 
 
     <sql id="Base_Column_List">
-        msgid, sendUid, receiveUid,msgtype,dtcreatetime,picbody,voicebody,createtime,updatetime,readstate,is_deleted
+        msgid, sendUid, receiveUid,msgtype,textbody,picbody,voicebody,createtime,updatetime,readstate,is_deleted
     </sql>
 
     <select id="getMsgByMsgid" parameterType="java.lang.Long">
@@ -36,7 +36,7 @@
     </select>
 
 
-    <select id="getMsgByMsgid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="getMsgNotReadOfUid" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>
         from singlechatmsg
@@ -59,7 +59,7 @@
         #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP},#{readstate,jdbcType=TINYINT}, #{is_deleted,jdbcType=TINYINT})
     </insert>
 
-    <insert id="insertSelective" parameterType="lan.qxc.lightserver.netty.sender.message.SingleChatMsg">
+    <insert id="insertSelective" parameterType="lan.qxc.lightserver.netty.sender.message.SingleChatMsg" useGeneratedKeys="true" keyProperty="msgid">
         insert into singlechatmsg
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="msgid!=null">
@@ -147,11 +147,6 @@
         where msgid=#{msgid,jdbcType=BIGINT}
     </update>
 
-    <update id="setMsgHadReadByMsgid">
-        update singlechatmsg
-        set readstate=1
-        where sendUid=#{sendUid,jdbcType=BIGINT} and receiveUid=#{receiveUid,jdbcType=BIGINT}
-    </update>
 
     <update id="deleteMsgByMsgid" parameterType="java.lang.Long">
         update singlechatmsg
