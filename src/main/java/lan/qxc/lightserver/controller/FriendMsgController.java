@@ -6,6 +6,7 @@ import lan.qxc.lightserver.netty.sender.message.FriendMsgVO;
 import lan.qxc.lightserver.service.impl.FriendMsgServiceImpl;
 import lan.qxc.lightserver.util.Result;
 import lan.qxc.lightserver.util.ResultGenerator;
+import lan.qxc.lightserver.vo.FriendVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

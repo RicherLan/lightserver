@@ -23,7 +23,7 @@ public class SingleChatMsgController {
 
     @PostMapping(SingleChatMsgAPI.DELETE_MSG_BY_MSGID)
     public Result deleteMsgByMsgid(@RequestParam("msgid") Long msgid){
-
+        System.out.println("deleteMsgByMsgid...");
         String res = singleChatService.deleteMsgByMsgid(msgid);
         if(res.equals(ServiceResultEnum.SUCCESS.getResult())){
             return ResultGenerator.genSuccessResult();
@@ -34,9 +34,14 @@ public class SingleChatMsgController {
 
     @PostMapping(SingleChatMsgAPI.GET_ALL_MSG_NOT_READ_BY_UID)
     public Result getMsgNotReadOfUid(@RequestParam("userid") Long userid){
-
+        System.out.println("getMsgNotReadOfUid.....");
         List<SingleChatMsg> singleChatMsgs = singleChatService.getMsgNotReadOfUid(userid);
         if(singleChatMsgs!=null){
+
+            for(SingleChatMsg singleChatMsg : singleChatMsgs){
+                System.out.println(singleChatMsg.getMsgid()+"   11111111111111");
+            }
+
             return ResultGenerator.genSuccessResult(singleChatMsgs);
         }
         return ResultGenerator.genFailResult("error");
@@ -45,7 +50,7 @@ public class SingleChatMsgController {
 
     @PostMapping(SingleChatMsgAPI.GET_MSG_BY_MSGID)
     public Result getMsgByMsgid(@RequestParam("msgid") Long msgid){
-
+        System.out.println("getMsgByMsgid...");
         SingleChatMsg singleChatMsg = singleChatService.getMsgByMsgid(msgid);
         if(singleChatMsg!=null){
             return ResultGenerator.genSuccessResult(singleChatMsg);

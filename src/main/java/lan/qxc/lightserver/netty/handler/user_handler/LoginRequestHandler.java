@@ -77,7 +77,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
                 loginResponsePacket.setRs(rs);
                 loginResponsePacket.setPersonalInfo(personalInfo);
 
-                System.out.println(loginResponsePacket.toString());
+//                System.out.println(loginResponsePacket.toString());
                 // 登录响应
                 ctx.writeAndFlush(loginResponsePacket);
             }

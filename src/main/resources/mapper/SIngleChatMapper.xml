@@ -40,14 +40,14 @@
         select
         <include refid="Base_Column_List"></include>
         from singlechatmsg
-        where receiveUid=#{receiveUid,jdbcType=BIGINT} and is_deleted=0 and readstate=0
+        where receiveUid=#{receiveUid,jdbcType=BIGINT} and is_deleted=0 and readstate=0 order by msgid desc
     </select>
 
     <select id="getMsgNotReadOfSendUid" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>
         from singlechatmsg
-        where sendUid=#{sendUid,jdbcType=BIGINT} and receiveUid=#{receiveUid,jdbcType=BIGINT} and is_deleted=0 and readstate=0
+        where sendUid=#{sendUid,jdbcType=BIGINT} and receiveUid=#{receiveUid,jdbcType=BIGINT} and is_deleted=0 and readstate=0 order by msgid desc
     </select>
 
 
