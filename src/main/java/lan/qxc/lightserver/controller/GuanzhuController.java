@@ -88,9 +88,6 @@ public class GuanzhuController {
 
         List<FriendVO> friendVOS = guanzhuService.getUsersGuanzhuMe(userid);
 
-        for(FriendVO friendVO : friendVOS){
-            System.out.println(friendVO.toString());
-        }
         return ResultGenerator.genSuccessResult(friendVOS);
 
     }

@@ -38,9 +38,9 @@ public class SingleChatMsgController {
         List<SingleChatMsg> singleChatMsgs = singleChatService.getMsgNotReadOfUid(userid);
         if(singleChatMsgs!=null){
 
-            for(SingleChatMsg singleChatMsg : singleChatMsgs){
-                System.out.println(singleChatMsg.getMsgid()+"   11111111111111");
-            }
+//            for(SingleChatMsg singleChatMsg : singleChatMsgs){
+//                System.out.println(singleChatMsg.getMsgid()+"   11111111111111");
+//            }
 
             return ResultGenerator.genSuccessResult(singleChatMsgs);
         }
@@ -60,7 +60,7 @@ public class SingleChatMsgController {
 
     @PostMapping(SingleChatMsgAPI.SET_ALL_MSG_HAD_READ_BY_UID)
     public Result setAllMsgHadReadByuid(@RequestParam("senduid") Long senduid,@RequestParam("receiveuid") Long receiveid){
-
+        System.out.println("setAllMsgHadReadByuid");
         String res = singleChatService.setOldMsgHadRead(senduid,receiveid);
         if(res.equals(ServiceResultEnum.SUCCESS.getResult())){
             return ResultGenerator.genSuccessResult();

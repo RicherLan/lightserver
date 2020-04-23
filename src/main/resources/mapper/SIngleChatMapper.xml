@@ -40,14 +40,14 @@
         select
         <include refid="Base_Column_List"></include>
         from singlechatmsg
-        where receiveUid=#{receiveUid,jdbcType=BIGINT} and is_deleted=0 and readstate=0 order by msgid desc
+        where receiveUid=#{receiveUid,jdbcType=BIGINT} and is_deleted=0 and readstate=0
     </select>
 
     <select id="getMsgNotReadOfSendUid" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>
         from singlechatmsg
-        where sendUid=#{sendUid,jdbcType=BIGINT} and receiveUid=#{receiveUid,jdbcType=BIGINT} and is_deleted=0 and readstate=0 order by msgid desc
+        where sendUid=#{sendUid,jdbcType=BIGINT} and receiveUid=#{receiveUid,jdbcType=BIGINT} and is_deleted=0 and readstate=0
     </select>
 
 
@@ -140,6 +140,11 @@
 
     </insert>
 
+    <update id="setOldMsgHadRead" >
+        update singlechatmsg
+        set readstate=1
+        where sendUid=#{sendUid,jdbcType=BIGINT} and receiveUid=#{receiveUid,jdbcType=BIGINT}
+    </update>
 
     <update id="setMsgHadReadByMsgid" parameterType="java.lang.Long">
         update singlechatmsg
