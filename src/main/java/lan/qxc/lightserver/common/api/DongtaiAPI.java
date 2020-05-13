@@ -15,4 +15,10 @@ public interface DongtaiAPI {
     String GET_USER_DONGTAI_NEW_LIST = "/dongtai/user_newlist";
 
 
+    //动态消息
+    String LIKE_DONGTAI = "/dongtai/like";
+    String COMMON_DONGTAI = "/dongtai/common";
+    String TRANSMIT_DONGTAI = "/dongtai/transmit";
+
+
 }

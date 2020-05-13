@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lan.qxc.lightserver.dao.DongtaiMsgMapper">
+
+    <resultMap id="BaseResultMap" type="lan.qxc.lightserver.entity.DongtaiMsg">
+        <id column="msgid" jdbcType="BIGINT" property="msgid"></id>
+        <result column="userid" jdbcType="BIGINT" property="userid"></result>
+        <result column="msgtype" jdbcType="TINYINT" property="msgtype"></result>
+        <result column="body" jdbcType="VARCHAR" property="body"></result>
+        <result column="readstate" jdbcType="TINYINT" property="readstate"></result>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"></result>
+
+        <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime"></result>
+        <result column="is_deleted" jdbcType="TINYINT" property="is_deleted"></result>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        msgid, userid, msgtype,body,readstate,createtime,updatetime,is_deleted
+    </sql>
+
+    <select id="getDTMsgBymsgId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from dongtaimsg
+        where msgid=#{msgid,jdbcType=BIGINT}
+    </select>
+
+
+
+
+
+    <update id="deleteMsg" parameterType="java.lang.Long">
+        update dongtaimsg set is_deleted=1
+        where msgid=#{msgid,jdbcType=BIGINT}
+    </update>
+
+
+
+    <insert id="insertSelective" parameterType="lan.qxc.lightserver.entity.DongtaiMsg">
+        insert into dongtaimsg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="msgid!=null">
+                msgid,
+            </if>
+            <if test="userid!=null">
+                userid,
+            </if>
+            <if test="msgtype!=null">
+                msgtype,
+            </if>
+            <if test="body!=null">
+                body,
+            </if>
+            <if test="readstate!=null">
+                readstate,
+            </if>
+            <if test="createtime!=null">
+                createtime,
+            </if>
+            <if test="updatetime!=null">
+                updatetime,
+            </if>
+            <if test="is_deleted!=null">
+                is_deleted,
+            </if>
+        </trim>
+
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="msgid!=null">
+                #{msgid,jdbcType=BIGINT},
+            </if>
+            <if test="userid!=null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="msgtype!=null">
+                #{msgtype,jdbcType=TINYINT},
+            </if>
+            <if test="body!=null">
+                #{body,jdbcType=VARCHAR},
+            </if>
+            <if test="readstate!=null">
+                #{readstate,jdbcType=TINYINT},
+            </if>
+            <if test="createtime!=null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime!=null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="is_deleted!=null">
+                #{is_deleted,jdbcType=TINYINT},
+            </if>
+        </trim>
+
+    </insert>
+
+
+    <update id="updateSelectiveByMsgId" parameterType="lan.qxc.lightserver.entity.DongtaiMsg">
+        update dongtaimsg
+        <set>
+            <if test="userid!=null">
+                userid=#{userid,jdbcType=BIGINT},
+            </if>
+            <if test="msgtype!=null">
+                msgtype=#{msgtype,jdbcType=TINYINT},
+            </if>
+            <if test="body!=null">
+                body=#{body,jdbcType=VARCHAR},
+            </if>
+            <if test="readstate!=null">
+                readstate=#{readstate,jdbcType=TINYINT},
+            </if>
+            <if test="createtime!=null">
+                createtime=#{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime!=null">
+                updatetime=#{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="is_deleted!=null">
+                is_deleted=#{is_deleted,jdbcType=TINYINT},
+            </if>
+        </set>
+        where  msgid=#{msgid,jdbcType=BIGINT}
+    </update>
+
+
+</mapper>
