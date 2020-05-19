@@ -13,6 +13,7 @@ import java.util.Date;
 public class DongtaiMsg {
 
     private Long msgid;
+    private Long dtid;
     private Long userid;
 
     private Byte msgtype;      //1点赞     2评论   3转发

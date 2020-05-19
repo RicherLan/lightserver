@@ -4,6 +4,8 @@
 
     <resultMap id="BaseResultMap" type="lan.qxc.lightserver.entity.DongtaiMsg">
         <id column="msgid" jdbcType="BIGINT" property="msgid"></id>
+        <id column="dtid" jdbcType="BIGINT" property="dtid"></id>
+
         <result column="userid" jdbcType="BIGINT" property="userid"></result>
         <result column="msgtype" jdbcType="TINYINT" property="msgtype"></result>
         <result column="body" jdbcType="VARCHAR" property="body"></result>
@@ -15,7 +17,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        msgid, userid, msgtype,body,readstate,createtime,updatetime,is_deleted
+        msgid, dtid,userid, msgtype,body,readstate,createtime,updatetime,is_deleted
     </sql>
 
     <select id="getDTMsgBymsgId" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -23,6 +25,32 @@
         <include refid="Base_Column_List"></include>
         from dongtaimsg
         where msgid=#{msgid,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="getBiggerCountOfmsgid" parameterType="java.lang.Long" resultType="int">
+        select count(*)
+        from dongtaimsg
+        where msgid > #{msgid}
+    </select>
+
+
+    <select id="getUserDtMsgsNewList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from dongtaimsg
+        where dtid in (select dtid from dongtai where userid=#{userid,jdbcType=BIGINT}) and is_deleted=0 and is_locked=0
+        order by msgid desc
+        limit 0,#{num}
+    </select>
+
+    <select id="getUserDtMsgsBackList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from dongtaimsg
+        where dtid in (select dtid from dongtai where userid=#{userid,jdbcType=BIGINT}) and is_deleted=0 and is_locked=0
+        order by msgid desc
+        limit #{pos},#{limit}
     </select>
 
 
@@ -42,6 +70,10 @@
             <if test="msgid!=null">
                 msgid,
             </if>
+            <if test="dtid!=null">
+                dtid,
+            </if>
+
             <if test="userid!=null">
                 userid,
             </if>
@@ -69,6 +101,10 @@
             <if test="msgid!=null">
                 #{msgid,jdbcType=BIGINT},
             </if>
+            <if test="dtid!=null">
+                #{dtid,jdbcType=BIGINT},
+            </if>
+
             <if test="userid!=null">
                 #{userid,jdbcType=BIGINT},
             </if>
@@ -98,6 +134,9 @@
     <update id="updateSelectiveByMsgId" parameterType="lan.qxc.lightserver.entity.DongtaiMsg">
         update dongtaimsg
         <set>
+            <if test="dtid!=null">
+                dtid=#{dtid,jdbcType=BIGINT},
+            </if>
             <if test="userid!=null">
                 userid=#{userid,jdbcType=BIGINT},
             </if>
