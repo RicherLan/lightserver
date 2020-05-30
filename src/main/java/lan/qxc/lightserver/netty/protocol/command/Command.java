@@ -17,4 +17,6 @@ public interface Command {
 
     int SINGLE_CHAT_MSG_PACKET = 8;
 
+    int DONGTAI_MSG_PACKET = 9;
+
 }

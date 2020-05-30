@@ -20,6 +20,15 @@ public interface DongtaiMsgMapper {
 
     int updateSelectiveByMsgId(DongtaiMsg dongtaiMsg);
 
+    /**
+     * 某用户是否对某动态进行过某种操作
+     * @param userid
+     * @param msgtype
+     * @param dtid
+     * @return
+     */
+    DongtaiMsg getDTMsgByDtidAUidAMsgtype(@Param("userid") Long userid, @Param("msgtype") Byte msgtype,@Param("dtid") long dtid);
+
 
     /**
      * 根据动态消息id获得动态消息
@@ -53,6 +62,14 @@ public interface DongtaiMsgMapper {
      * @return
      */
     List<DongtaiMsg> getUserDtMsgsBackList(@Param("userid") Long userid,@Param("pos") int pos,@Param("limit") int limit);
+
+
+    /**
+     * 获得某动态的点赞数
+     * @param dtid
+     * @return
+     */
+    int getLikeNumByDtid(Long dtid);
 
 
 }

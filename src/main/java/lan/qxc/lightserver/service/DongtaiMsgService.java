@@ -13,7 +13,7 @@ public interface DongtaiMsgService {
      * @param dtid
      * @return
      */
-    int likeDongtai(Long userid,Long dtid);
+    String likeDongtai(Long userid,Long dtid);
 
     /**
      * 评论
@@ -22,7 +22,7 @@ public interface DongtaiMsgService {
      * @param body
      * @return
      */
-    int commonDongtai(Long userid,Long dtidw,String body);
+    String commonDongtai(Long userid,Long dtidw,String body);
 
     /**
      * 转发
@@ -30,7 +30,7 @@ public interface DongtaiMsgService {
      * @param dtid
      * @return
      */
-    int transmitDongtai(Long userid,Long dtid);
+    String transmitDongtai(Long userid,Long dtid);
 
 
     /**

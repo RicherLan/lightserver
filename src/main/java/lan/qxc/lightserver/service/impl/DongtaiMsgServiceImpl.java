@@ -1,10 +1,14 @@
 package lan.qxc.lightserver.service.impl;
 
+import lan.qxc.lightserver.common.ServiceResultEnum;
+import lan.qxc.lightserver.dao.DongtaiMapper;
 import lan.qxc.lightserver.dao.DongtaiMsgMapper;
 import lan.qxc.lightserver.dao.UserMapper;
 import lan.qxc.lightserver.entity.Dongtai;
 import lan.qxc.lightserver.entity.DongtaiMsg;
 import lan.qxc.lightserver.entity.User;
+import lan.qxc.lightserver.netty.sender.DongtaiMsgSender;
+import lan.qxc.lightserver.netty.sender.FriendMsgSender;
 import lan.qxc.lightserver.service.DongtaiMsgService;
 import lan.qxc.lightserver.util.BeanUtil;
 import lan.qxc.lightserver.vo.DongtaiMsgVO;
@@ -22,23 +26,51 @@ public class DongtaiMsgServiceImpl implements DongtaiMsgService {
     DongtaiMsgMapper dongtaiMsgMapper;
 
     @Resource
+    DongtaiMapper dongtaiMapper;
+
+    @Resource
     UserMapper userMapper;
 
 
     @Override
-    public int likeDongtai(Long userid, Long dtid) {
+    public String likeDongtai(Long userid, Long dtid) {
         DongtaiMsg dongtaiMsg = new DongtaiMsg();
         dongtaiMsg.setUserid(userid);
         dongtaiMsg.setDtid(dtid);
         dongtaiMsg.setMsgtype(new Byte("1"));
 
-        int res = dongtaiMsgMapper.insertSelective(dongtaiMsg);
+        Dongtai dongtai = dongtaiMapper.getDongtaiByDtid(dtid);
+        Long touid = dongtai.getUserid();
 
-        return res;
+        DongtaiMsgSender.getInstance().sendMsg(touid,dongtai,dongtaiMsg);
+
+        //是否之前点赞过
+        DongtaiMsg msg = dongtaiMsgMapper.getDTMsgByDtidAUidAMsgtype(userid,new Byte("1"),dtid);
+        int res = 1;
+
+        //之前点过赞
+        if(msg!=null){
+            //删除
+            res = dongtaiMsgMapper.deleteMsg(msg.getMsgid());
+            //删除失败
+            if(res<1){
+                return ServiceResultEnum.ERROR.getResult();
+            }else{
+                return ServiceResultEnum.SUCCESS.getResult();
+            }
+        }
+
+        res = dongtaiMsgMapper.insertSelective(dongtaiMsg);
+
+        if(res>0){
+            return ServiceResultEnum.SUCCESS.getResult();
+        }
+
+        return ServiceResultEnum.ERROR.getResult();
     }
 
     @Override
-    public int commonDongtai(Long userid, Long dtid, String body) {
+    public String commonDongtai(Long userid, Long dtid, String body) {
 
         DongtaiMsg dongtaiMsg = new DongtaiMsg();
         dongtaiMsg.setUserid(userid);
@@ -48,11 +80,16 @@ public class DongtaiMsgServiceImpl implements DongtaiMsgService {
 
         int res = dongtaiMsgMapper.insertSelective(dongtaiMsg);
 
-        return res;
+        if(res>0){
+            return ServiceResultEnum.SUCCESS.getResult();
+        }
+
+        return ServiceResultEnum.ERROR.getResult();
+
     }
 
     @Override
-    public int transmitDongtai(Long userid, Long dtid) {
+    public String transmitDongtai(Long userid, Long dtid) {
 
         DongtaiMsg dongtaiMsg = new DongtaiMsg();
         dongtaiMsg.setUserid(userid);
@@ -61,7 +98,12 @@ public class DongtaiMsgServiceImpl implements DongtaiMsgService {
 
         int res = dongtaiMsgMapper.insertSelective(dongtaiMsg);
 
-        return res;
+        if(res>0){
+            return ServiceResultEnum.SUCCESS.getResult();
+        }
+
+        return ServiceResultEnum.ERROR.getResult();
+
     }
 
     @Override

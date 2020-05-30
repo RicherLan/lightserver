@@ -2,6 +2,7 @@ package lan.qxc.lightserver.netty.protocol;
 
 import io.netty.buffer.ByteBuf;
 import lan.qxc.lightserver.netty.protocol.packet.chat_msg.SingleChatMsgPacket;
+import lan.qxc.lightserver.netty.protocol.packet.dongtai_msg_packet.DongtaiMsgPacket;
 import lan.qxc.lightserver.netty.protocol.packet.friend_msg_packet.FriendMsgPacket;
 import lan.qxc.lightserver.netty.protocol.request.chat_request.SingleChatRequestPacket;
 import lan.qxc.lightserver.netty.protocol.request.netRequest.HeartBeatRequestPacket;
@@ -46,6 +47,9 @@ public class PacketCodec {
         packetTypeMap.put(SINGLE_CHAT_MSG_REQUEST, SingleChatRequestPacket.class);
 
         packetTypeMap.put(SINGLE_CHAT_MSG_PACKET, SingleChatMsgPacket.class);
+
+        packetTypeMap.put(DONGTAI_MSG_PACKET, DongtaiMsgPacket.class);
+
 
 
 

@@ -3,9 +3,11 @@ package lan.qxc.lightserver.service.impl;
 
 import lan.qxc.lightserver.common.ServiceResultEnum;
 import lan.qxc.lightserver.dao.DongtaiMapper;
+import lan.qxc.lightserver.dao.DongtaiMsgMapper;
 import lan.qxc.lightserver.dao.GuanzhuMapper;
 import lan.qxc.lightserver.dao.UserMapper;
 import lan.qxc.lightserver.entity.Dongtai;
+import lan.qxc.lightserver.entity.DongtaiMsg;
 import lan.qxc.lightserver.entity.User;
 import lan.qxc.lightserver.service.DongtaiService;
 import lan.qxc.lightserver.service.GuanzhuService;
@@ -23,6 +25,8 @@ public class DongtaiServiceImpl implements DongtaiService {
 
     @Resource
     DongtaiMapper dongtaiMapper;
+    @Resource
+    DongtaiMsgMapper dongtaiMsgMapper;
     @Resource
     UserMapper userMapper;
     @Resource
@@ -84,7 +88,15 @@ public class DongtaiServiceImpl implements DongtaiService {
 
                 dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(userid,dongtai.getUserid()));
 
+                dongtailVO.setLikeNum(dongtaiMsgMapper.getLikeNumByDtid(dongtailVO.getDtid()));
+                dongtailVO.setCommonNum(0);
+                dongtailVO.setTransmitNum(0);
 
+                //userid的用户是否对该动态点过赞
+                DongtaiMsg dongtaiMsg = dongtaiMsgMapper.getDTMsgByDtidAUidAMsgtype(userid,new Byte("1"),dongtailVO.getDtid());
+                if(dongtaiMsg!=null){
+                    dongtailVO.setIsLike(new Byte("1"));
+                }
                 dongtailVOS.add(dongtailVO);
             }
         }
