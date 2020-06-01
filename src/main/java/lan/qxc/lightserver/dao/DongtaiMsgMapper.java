@@ -71,5 +71,19 @@ public interface DongtaiMsgMapper {
      */
     int getLikeNumByDtid(Long dtid);
 
+    /**
+     * 获得某用户未读的动态消息数量
+     * @param userid
+     * @return
+     */
+    int getMsgNotReadNumByUserid(Long userid);
+
+    /**
+     * 设置动态消息已读
+     * @param userid
+     * @return
+     */
+    int setDongtaiMsgHadRead(Long userid);
+
 
 }

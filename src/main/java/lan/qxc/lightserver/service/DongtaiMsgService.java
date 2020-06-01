@@ -1,5 +1,6 @@
 package lan.qxc.lightserver.service;
 
+import lan.qxc.lightserver.netty.protocol.packet.dongtai_msg_packet.DongtaiMsgPacket;
 import lan.qxc.lightserver.vo.DongtaiMsgVO;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public interface DongtaiMsgService {
      * @param userid
      * @return
      */
-    List<DongtaiMsgVO> getUserDtMsgsNewList(Long userid);
+    List<DongtaiMsgPacket> getUserDtMsgsNewList(Long userid);
 
 
     /**
@@ -47,6 +48,21 @@ public interface DongtaiMsgService {
      * @param msgid
      * @return
      */
-    List<DongtaiMsgVO> getUserDtMsgsBackList(Long userid,Long msgid);
+    List<DongtaiMsgPacket> getUserDtMsgsBackList(Long userid,Long msgid);
+
+    /**
+     * 获得某用户未读的动态消息数量
+     * @param userid
+     * @return
+     */
+    int getMsgNotReadNumByUserid(Long userid);
+
+    /**
+     * 设置某用户动态消息已读
+     * @param userid
+     * @return
+     */
+    int setDongtaiMsgHadRead(Long userid);
+
 
 }

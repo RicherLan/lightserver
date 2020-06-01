@@ -20,5 +20,11 @@ public interface DongtaiAPI {
     String COMMON_DONGTAI = "/dongtai/common";
     String TRANSMIT_DONGTAI = "/dongtai/transmit";
 
+    String GET_DONGTAI_MSG_NOT_READ_NUM = "/dongtai/msg/not_read_num";
+    String GET_DONGTAI_MSG_BACK_LIST = "/dongtai/msg/backlist";
+    String GET_DONGTAI_MSG_NEW_LIST = "/dongtai/msg/newlist";
+
+    String SET_DONGTAI_MSG_AHD_READ = "/dongtai/msg/set_read";
+
 
 }

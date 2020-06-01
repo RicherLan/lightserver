@@ -7,6 +7,7 @@ import lan.qxc.lightserver.dao.UserMapper;
 import lan.qxc.lightserver.entity.Dongtai;
 import lan.qxc.lightserver.entity.DongtaiMsg;
 import lan.qxc.lightserver.entity.User;
+import lan.qxc.lightserver.netty.protocol.packet.dongtai_msg_packet.DongtaiMsgPacket;
 import lan.qxc.lightserver.netty.sender.DongtaiMsgSender;
 import lan.qxc.lightserver.netty.sender.FriendMsgSender;
 import lan.qxc.lightserver.service.DongtaiMsgService;
@@ -42,7 +43,19 @@ public class DongtaiMsgServiceImpl implements DongtaiMsgService {
         Dongtai dongtai = dongtaiMapper.getDongtaiByDtid(dtid);
         Long touid = dongtai.getUserid();
 
-        DongtaiMsgSender.getInstance().sendMsg(touid,dongtai,dongtaiMsg);
+        User user = userMapper.selectByUserid(dongtai.getUserid());
+        DongtailVO dongtailVO = new DongtailVO();
+        BeanUtil.copyProperties(user,dongtailVO);
+        BeanUtil.copyProperties(dongtai,dongtailVO);
+
+        User user1 = userMapper.selectByUserid(userid);
+        DongtaiMsgVO dongtaiMsgVO = new DongtaiMsgVO();
+        BeanUtil.copyProperties(user1,dongtaiMsgVO);
+        BeanUtil.copyProperties(dongtaiMsg,dongtaiMsgVO);
+
+
+
+        DongtaiMsgSender.getInstance().sendMsg(touid,dongtailVO,dongtaiMsgVO);
 
         //是否之前点赞过
         DongtaiMsg msg = dongtaiMsgMapper.getDTMsgByDtidAUidAMsgtype(userid,new Byte("1"),dtid);
@@ -107,10 +120,12 @@ public class DongtaiMsgServiceImpl implements DongtaiMsgService {
     }
 
     @Override
-    public List<DongtaiMsgVO> getUserDtMsgsNewList(Long userid) {
+    public List<DongtaiMsgPacket> getUserDtMsgsNewList(Long userid) {
+
+        List<DongtaiMsgPacket> dongtaiMsgPackets = new ArrayList<>();
 
         List<DongtaiMsg> dongtaiMsgs = dongtaiMsgMapper.getUserDtMsgsNewList(userid,10);
-        List<DongtaiMsgVO> dongtaiMsgVOS = new ArrayList<>();
+
 
         if(dongtaiMsgs!=null&&dongtaiMsgs.size()!=0){
             for( DongtaiMsg dongtaiMsg : dongtaiMsgs){
@@ -119,21 +134,34 @@ public class DongtaiMsgServiceImpl implements DongtaiMsgService {
                 DongtaiMsgVO dongtaiMsgVO = new DongtaiMsgVO();
                 BeanUtil.copyProperties(dongtaiMsg,dongtaiMsgVO);
                 BeanUtil.copyProperties(user,dongtaiMsgVO);
-                dongtaiMsgVOS.add(dongtaiMsgVO);
+
+                DongtailVO dongtailVO = new DongtailVO();
+                Dongtai dongtai = dongtaiMapper.getDongtaiByDtid(dongtaiMsg.getDtid());
+                User user1 = userMapper.selectByUserid(dongtai.getUserid());
+                BeanUtil.copyProperties(dongtai,dongtailVO);
+                BeanUtil.copyProperties(user1,dongtailVO);
+
+                DongtaiMsgPacket dongtaiMsgPacket = new DongtaiMsgPacket();
+                dongtaiMsgPacket.setDongtaiMsgVO(dongtaiMsgVO);
+                dongtaiMsgPacket.setDongtailVO(dongtailVO);
+
+                dongtaiMsgPackets.add(dongtaiMsgPacket);
             }
         }
 
-        return dongtaiMsgVOS;
+        return dongtaiMsgPackets;
 
     }
 
     @Override
-    public List<DongtaiMsgVO> getUserDtMsgsBackList(Long userid, Long msgid) {
+    public List<DongtaiMsgPacket> getUserDtMsgsBackList(Long userid, Long msgid) {
         int count = dongtaiMsgMapper.getBiggerCountOfmsgid(msgid);
         int begin = count+1;
 
-        List<DongtaiMsg> dongtaiMsgs = dongtaiMsgMapper.getUserDtMsgsNewList(userid,10);
-        List<DongtaiMsgVO> dongtaiMsgVOS = new ArrayList<>();
+        List<DongtaiMsgPacket> dongtaiMsgPackets = new ArrayList<>();
+
+        List<DongtaiMsg> dongtaiMsgs = dongtaiMsgMapper.getUserDtMsgsBackList(userid,begin,10);
+
 
         if(dongtaiMsgs!=null&&dongtaiMsgs.size()!=0){
             for( DongtaiMsg dongtaiMsg : dongtaiMsgs){
@@ -142,10 +170,34 @@ public class DongtaiMsgServiceImpl implements DongtaiMsgService {
                 DongtaiMsgVO dongtaiMsgVO = new DongtaiMsgVO();
                 BeanUtil.copyProperties(dongtaiMsg,dongtaiMsgVO);
                 BeanUtil.copyProperties(user,dongtaiMsgVO);
-                dongtaiMsgVOS.add(dongtaiMsgVO);
+
+                DongtailVO dongtailVO = new DongtailVO();
+                Dongtai dongtai = dongtaiMapper.getDongtaiByDtid(dongtaiMsg.getDtid());
+                User user1 = userMapper.selectByUserid(dongtai.getUserid());
+                BeanUtil.copyProperties(dongtai,dongtailVO);
+                BeanUtil.copyProperties(user1,dongtailVO);
+
+                DongtaiMsgPacket dongtaiMsgPacket = new DongtaiMsgPacket();
+                dongtaiMsgPacket.setDongtaiMsgVO(dongtaiMsgVO);
+                dongtaiMsgPacket.setDongtailVO(dongtailVO);
+
+                dongtaiMsgPackets.add(dongtaiMsgPacket);
             }
         }
 
-        return dongtaiMsgVOS;
+        return dongtaiMsgPackets;
+    }
+
+    @Override
+    public int getMsgNotReadNumByUserid(Long userid) {
+
+        int num = dongtaiMsgMapper.getMsgNotReadNumByUserid(userid);
+        return num;
+    }
+
+    @Override
+    public int setDongtaiMsgHadRead(Long userid) {
+        int num = dongtaiMsgMapper.setDongtaiMsgHadRead(userid);
+        return num;
     }
 }

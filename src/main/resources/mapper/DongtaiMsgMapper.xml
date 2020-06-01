@@ -24,7 +24,7 @@
     <select id="getLikeNumByDtid" parameterType="java.lang.Long" resultType="java.lang.Integer">
         select count(*)
         from dongtaimsg
-        where msgid=#{msgid,jdbcType=BIGINT} and msgtype=1
+        where dtid=#{dtid,jdbcType=BIGINT} and msgtype=1 and is_deleted=0
     </select>
 
 
@@ -33,21 +33,27 @@
         select
         <include refid="Base_Column_List"></include>
         from dongtaimsg
-        where msgid=#{msgid,jdbcType=BIGINT}
+        where msgid=#{msgid,jdbcType=BIGINT}  and is_deleted=0
     </select>
 
     <select id="getDTMsgByDtidAUidAMsgtype" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>
         from dongtaimsg
-        where userid=#{userid,jdbcType=BIGINT} and dtid=#{dtid,jdbcType=BIGINT} and msgtype=#{msgtype,jdbcType=TINYINT}
+        where userid=#{userid,jdbcType=BIGINT} and dtid=#{dtid,jdbcType=BIGINT} and msgtype=#{msgtype,jdbcType=TINYINT} and is_deleted=0
     </select>
 
+
+    <select id="getMsgNotReadNumByUserid" parameterType="java.lang.Long" resultType="int">
+        select count(*)
+        from dongtaimsg
+        where dtid in (select dtid from dongtai where userid=#{userid,jdbcType=BIGINT}) and is_deleted=0 and readstate=0
+    </select>
 
     <select id="getBiggerCountOfmsgid" parameterType="java.lang.Long" resultType="int">
         select count(*)
         from dongtaimsg
-        where msgid > #{msgid}
+        where msgid > #{msgid,jdbcType=BIGINT} and is_deleted=0
     </select>
 
 
@@ -55,7 +61,7 @@
         select
         <include refid="Base_Column_List"></include>
         from dongtaimsg
-        where dtid in (select dtid from dongtai where userid=#{userid,jdbcType=BIGINT}) and is_deleted=0 and is_locked=0
+        where dtid in (select dtid from dongtai where userid=#{userid,jdbcType=BIGINT}) and is_deleted=0
         order by msgid desc
         limit 0,#{num}
     </select>
@@ -64,13 +70,17 @@
         select
         <include refid="Base_Column_List"></include>
         from dongtaimsg
-        where dtid in (select dtid from dongtai where userid=#{userid,jdbcType=BIGINT}) and is_deleted=0 and is_locked=0
+        where dtid in (select dtid from dongtai where userid=#{userid,jdbcType=BIGINT}) and is_deleted=0
         order by msgid desc
         limit #{pos},#{limit}
     </select>
 
 
 
+    <update id="setDongtaiMsgHadRead" parameterType="java.lang.Long">
+        update dongtaimsg set readstate=1
+        where dtid in (select dtid from dongtai where userid=#{userid,jdbcType=BIGINT}) and is_deleted=0 and readstate=0
+    </update>
 
 
     <update id="deleteMsg" parameterType="java.lang.Long">

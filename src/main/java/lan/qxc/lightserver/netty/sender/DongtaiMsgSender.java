@@ -10,6 +10,8 @@ import lan.qxc.lightserver.netty.protocol.packet.friend_msg_packet.FriendMsgPack
 import lan.qxc.lightserver.netty.sender.message_sender.MsgSender;
 import lan.qxc.lightserver.netty.util.SessionUtil;
 import lan.qxc.lightserver.netty.sender.message.FriendMsgVO;
+import lan.qxc.lightserver.vo.DongtaiMsgVO;
+import lan.qxc.lightserver.vo.DongtailVO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,12 +27,12 @@ public class DongtaiMsgSender extends MsgSender {
     }
 
 
-    public void sendMsg(Long userid, Dongtai dongtai, DongtaiMsg dongtaiMsg){
+    public void sendMsg(Long userid, DongtailVO dongtai, DongtaiMsgVO dongtaiMsg){
 
         DongtaiMsgPacket packet = new DongtaiMsgPacket();
         packet.setVersion(new Byte("1"));
-        packet.setDongtai(dongtai);
-        packet.setDongtaiMsg(dongtaiMsg);
+        packet.setDongtailVO(dongtai);
+        packet.setDongtaiMsgVO(dongtaiMsg);
         send(userid,packet);
 
     }

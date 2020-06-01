@@ -96,6 +96,8 @@ public class DongtaiServiceImpl implements DongtaiService {
                 DongtaiMsg dongtaiMsg = dongtaiMsgMapper.getDTMsgByDtidAUidAMsgtype(userid,new Byte("1"),dongtailVO.getDtid());
                 if(dongtaiMsg!=null){
                     dongtailVO.setIsLike(new Byte("1"));
+                }else{
+                    dongtailVO.setIsLike(new Byte("0"));
                 }
                 dongtailVOS.add(dongtailVO);
             }
@@ -118,6 +120,21 @@ public class DongtaiServiceImpl implements DongtaiService {
                 BeanUtil.copyProperties(dongtai,dongtailVO);
                 BeanUtil.copyProperties(user,dongtailVO);
                 dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(userid,dongtai.getUserid()));
+
+                dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(userid,dongtai.getUserid()));
+
+                dongtailVO.setLikeNum(dongtaiMsgMapper.getLikeNumByDtid(dongtailVO.getDtid()));
+                dongtailVO.setCommonNum(0);
+                dongtailVO.setTransmitNum(0);
+
+                //userid的用户是否对该动态点过赞
+                DongtaiMsg dongtaiMsg = dongtaiMsgMapper.getDTMsgByDtidAUidAMsgtype(userid,new Byte("1"),dongtailVO.getDtid());
+                if(dongtaiMsg!=null){
+                    dongtailVO.setIsLike(new Byte("1"));
+                }else{
+                    dongtailVO.setIsLike(new Byte("0"));
+                }
+
                 dongtailVOS.add(dongtailVO);
             }
         }
@@ -143,6 +160,21 @@ public class DongtaiServiceImpl implements DongtaiService {
                 BeanUtil.copyProperties(dongtai,dongtailVO);
                 BeanUtil.copyProperties(user,dongtailVO);
                 dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(uid,userid));
+
+                dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(userid,dongtai.getUserid()));
+
+                dongtailVO.setLikeNum(dongtaiMsgMapper.getLikeNumByDtid(dongtailVO.getDtid()));
+                dongtailVO.setCommonNum(0);
+                dongtailVO.setTransmitNum(0);
+
+                //userid的用户是否对该动态点过赞
+                DongtaiMsg dongtaiMsg = dongtaiMsgMapper.getDTMsgByDtidAUidAMsgtype(userid,new Byte("1"),dongtailVO.getDtid());
+                if(dongtaiMsg!=null){
+                    dongtailVO.setIsLike(new Byte("1"));
+                }else{
+                    dongtailVO.setIsLike(new Byte("0"));
+                }
+
                 dongtailVOS.add(dongtailVO);
             }
         }
@@ -164,6 +196,22 @@ public class DongtaiServiceImpl implements DongtaiService {
                 BeanUtil.copyProperties(dongtai,dongtailVO);
                 BeanUtil.copyProperties(user,dongtailVO);
                 dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(uid,userid));
+
+                dongtailVO.setGuanzhu_type(guanzhuService.getUToURelation(userid,dongtai.getUserid()));
+
+                dongtailVO.setLikeNum(dongtaiMsgMapper.getLikeNumByDtid(dongtailVO.getDtid()));
+                dongtailVO.setCommonNum(0);
+                dongtailVO.setTransmitNum(0);
+
+                //userid的用户是否对该动态点过赞
+                DongtaiMsg dongtaiMsg = dongtaiMsgMapper.getDTMsgByDtidAUidAMsgtype(userid,new Byte("1"),dongtailVO.getDtid());
+                if(dongtaiMsg!=null){
+                    dongtailVO.setIsLike(new Byte("1"));
+                }else{
+                    dongtailVO.setIsLike(new Byte("0"));
+                }
+
+
                 dongtailVOS.add(dongtailVO);
             }
         }
