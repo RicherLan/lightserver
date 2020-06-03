@@ -44,9 +44,9 @@ public class DongtaiMsgController {
 
 
     @PostMapping(DongtaiAPI.GET_DONGTAI_MSG_BACK_LIST)
-    private Result getDongtai_Msg_Back_List(@RequestParam("userid") Long userid,@RequestParam("dtid") Long dtid){
+    private Result getDongtai_Msg_Back_List(@RequestParam("userid") Long userid,@RequestParam("msgid") Long msgid){
         System.out.println("getDongtai_Msg_Back_List...");
-        List<DongtaiMsgPacket> dongtaiMsgPackets = dongtaiMsgService.getUserDtMsgsBackList(userid,dtid);
+        List<DongtaiMsgPacket> dongtaiMsgPackets = dongtaiMsgService.getUserDtMsgsBackList(userid,msgid);
         if(dongtaiMsgPackets!=null){
             return ResultGenerator.genSuccessResult(dongtaiMsgPackets);
         }
