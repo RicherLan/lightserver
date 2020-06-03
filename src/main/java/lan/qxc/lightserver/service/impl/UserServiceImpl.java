@@ -128,6 +128,9 @@ public class UserServiceImpl implements UserService {
         Guanzhu guanzhu = guanzhuMapper.getGuanzhuInfo(userid,uid);
         System.out.println(guanzhu);
             User user = userMapper.selectByUserid(uid);
+            if(user==null){
+                return null;
+            }
             FriendVO userVO = new FriendVO();
             BeanUtil.copyProperties(user,userVO);
             if(guanzhu!=null){

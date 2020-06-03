@@ -106,4 +106,13 @@ public interface GuanzhuMapper {
     Guanzhu getGuanzhuInfo(@Param("userid")Long userid,@Param("gzuid") Long gzuid);
 
 
+    /**
+     * 获得userid1给userid2的备注
+     * @param userid1
+     * @param userid2
+     * @return
+     */
+    String getRemark(@Param("userid1") Long userid1, @Param("userid2")Long userid2);
+
+
 }

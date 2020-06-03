@@ -38,6 +38,11 @@
         order by gzid desc
     </select>
 
+    <select id="getRemark" resultType="java.lang.String">
+        select remarkname
+        from guanzhu
+        where userid=#{userid1,jdbcType=BIGINT} and gzuid=#{userid2,jdbcType=BIGINT} and is_deleted=0
+    </select>
 
 
     <select id="getUsersGuanzhuMe" parameterType="java.lang.Long" resultType="java.lang.Long">

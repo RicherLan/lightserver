@@ -3,6 +3,7 @@ package lan.qxc.lightserver.service;
 import lan.qxc.lightserver.entity.Guanzhu;
 import lan.qxc.lightserver.vo.FriendVO;
 import lan.qxc.lightserver.vo.UserVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -86,5 +87,6 @@ public interface GuanzhuService {
      * @return
      */
     Integer getUToURelation(Long uid1,Long uid2);
+
 
 }

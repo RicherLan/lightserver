@@ -81,6 +81,13 @@ public class DongtaiServiceImpl implements DongtaiService {
 
             for(Dongtai dongtai : dongtais){
                 User user = userMapper.selectByUserid(dongtai.getUserid());
+
+                String remark = guanzhuMapper.getRemark(userid,dongtai.getUserid());
+
+                if(remark!=null&&!remark.isEmpty()){
+                    user.setUsername(remark);
+                }
+
                 DongtailVO dongtailVO = new DongtailVO();
                 BeanUtil.copyProperties(dongtai,dongtailVO);
                 BeanUtil.copyProperties(user,dongtailVO);
@@ -116,6 +123,13 @@ public class DongtaiServiceImpl implements DongtaiService {
 
             for(Dongtai dongtai : dongtais){
                 User user = userMapper.selectByUserid(dongtai.getUserid());
+
+                String remark = guanzhuMapper.getRemark(userid,dongtai.getUserid());
+
+                if(remark!=null&&!remark.isEmpty()){
+                    user.setUsername(remark);
+                }
+
                 DongtailVO dongtailVO = new DongtailVO();
                 BeanUtil.copyProperties(dongtai,dongtailVO);
                 BeanUtil.copyProperties(user,dongtailVO);

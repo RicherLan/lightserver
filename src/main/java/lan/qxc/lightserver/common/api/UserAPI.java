@@ -14,4 +14,5 @@ public interface UserAPI {
 
     String GET_USER_DETAIL_INFO = "/user/getdetail";
 
+
 }
