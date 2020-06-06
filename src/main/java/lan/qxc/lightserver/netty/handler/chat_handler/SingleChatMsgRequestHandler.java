@@ -47,7 +47,7 @@ public class SingleChatMsgRequestHandler extends SimpleChannelInboundHandler<Sin
         FixedThreadPool.threadPool.submit(new Runnable() {
             @Override
             public void run() {
-
+                singleChatRequestPacket.getSingleChatMsg().setReadstate(new Byte("0"));
                 Long msgid = singleChatService.insert(singleChatRequestPacket.getSingleChatMsg());
 
                 if(msgid==null||msgid.equals(new Long(-1))){
